@@ -1,0 +1,16 @@
+{
+  "title": "Ninesky.Base",
+  "copyright": "洞庭夕照",
+  "version": "1.0.0-0",
+
+  "dependencies": {
+    "Microsoft.EntityFrameworkCore": "1.1.0",
+    "NETStandard.Library": "1.6.1"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}

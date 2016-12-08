@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Ninesky.Base;
 
 
 namespace Ninesky.Web.Controllers
@@ -21,11 +22,19 @@ namespace Ninesky.Web.Controllers
     /// </summary>
     public class CategoryController : Controller
     {
+        private NineskyDbContext _dbContext;
+        private CategoryService _categoryService;
+        public CategoryController(NineskyDbContext dbContext)
+        {
+            _dbContext = dbContext;
+            _categoryService = new CategoryService(dbContext);
+        }
         // GET: /<controller>/
         [Route("/Category/{id:int}")]
         public IActionResult Index(int id)
         {
-            return Content(id.ToString());
+            var aa = _categoryService.Find(4);
+            return Content(aa.Name);
         }
     }
 }

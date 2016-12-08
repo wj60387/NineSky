@@ -64,7 +64,6 @@ namespace Ninesky.Base
         /// <summary>
         /// 栏目说明
         /// </summary>
-        [Required]
         [StringLength(1000)]
         [Display(Name = "栏目说明")]
         public string Description { get; set; }

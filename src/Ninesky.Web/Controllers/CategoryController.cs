@@ -22,19 +22,33 @@ namespace Ninesky.Web.Controllers
     /// </summary>
     public class CategoryController : Controller
     {
+        /// <summary>
+        /// 数据上下文
+        /// </summary>
         private NineskyDbContext _dbContext;
+
+        /// <summary>
+        /// 栏目服务
+        /// </summary>
         private CategoryService _categoryService;
+
         public CategoryController(NineskyDbContext dbContext)
         {
             _dbContext = dbContext;
             _categoryService = new CategoryService(dbContext);
         }
-        // GET: /<controller>/
+
+        /// <summary>
+        /// 查看栏目
+        /// </summary>
+        /// <param name="id">栏目Id</param>
+        /// <returns></returns>
         [Route("/Category/{id:int}")]
         public IActionResult Index(int id)
         {
-            var aa = _categoryService.Find(4);
-            return Content(aa.Name);
+            var category = _categoryService.Find(id);
+            if (category == null) return View("Error");
+            return View(category);
         }
     }
 }

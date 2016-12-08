@@ -1,0 +1,42 @@
+﻿@model Ninesky.Base.Category
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h2>@Model.Name</h2>
+<div class="row">
+    <div class="col-lg-2 col-md-3">侧栏</div>
+    <div class="col-lg-2 col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <label asp-for="CategoryId"></label>
+                @Html.DisplayFor(model => model.CategoryId)
+            </li>
+            <li class="list-group-item">
+                <label asp-for="Name"></label>
+                @Html.DisplayFor(model => model.Name)
+            </li>
+            <li class="list-group-item">
+                <label asp-for="ParentId"></label>
+                @Html.DisplayFor(model => model.ParentId)
+            </li>
+            <li class="list-group-item">
+                <label asp-for="Type"></label>
+                @Html.DisplayFor(model => model.Type)
+            </li>
+            <li class="list-group-item">
+                <label asp-for="Target"></label>
+                @Html.DisplayFor(model => model.Target)
+            </li>
+            <li class="list-group-item">
+                <label asp-for="Order"></label>
+                @Html.DisplayFor(model => model.Order)
+            </li>
+            <li class="list-group-item">
+                <label asp-for="Description"></label>
+                @Html.DisplayFor(model => model.Description)
+            </li>
+        </ul>
+
+    </div>
+</div>

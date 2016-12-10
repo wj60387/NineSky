@@ -71,16 +71,16 @@ namespace Ninesky.Base
         /// <summary>
         /// 常规栏目
         /// </summary>
-        public virtual CategoryGeneral General { get; set; }
+        public CategoryGeneral General { get; set; }
 
         /// <summary>
         /// 单页栏目
         /// </summary>
-        public virtual CategoryPage Page { get; set; }
+        public CategoryPage Page { get; set; }
 
         /// <summary>
         /// 链接栏目
         /// </summary>
-        public virtual CategoryLink Link { get; set; }
+        public CategoryLink Link { get; set; }
     }
 }

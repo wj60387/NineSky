@@ -33,7 +33,7 @@ namespace Ninesky.Base
         /// <returns></returns>
         public Category Find(int Id)
         {
-            return _baseRepository.Find(Id);
+            return _baseRepository.Find(new string[] { "General", "Page", "Link" }, c => c.CategoryId == Id);
         }
     }
 }

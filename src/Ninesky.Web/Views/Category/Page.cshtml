@@ -40,22 +40,10 @@
                     @Html.DisplayFor(model => model.Description)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.General.Module)
+                    @Html.DisplayNameFor(model => model.Page.Content)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.General.Module)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.General.ContentView)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.General.ContentView)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.General.ContentOrder)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.General.ContentOrder)
+                    @Html.Raw(Model.Page.Content)
                 </dd>
             </dl>
         </div>

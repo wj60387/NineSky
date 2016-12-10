@@ -37,7 +37,6 @@ namespace Ninesky.Base
         /// <summary>
         /// 模块名称
         /// </summary>
-        [Required]
         [StringLength(50)]
         [Display(Name = "模块名称")]
         public string Module { get; set; }
@@ -45,7 +44,6 @@ namespace Ninesky.Base
         /// <summary>
         /// 内容视图
         /// </summary>
-        [Required]
         [StringLength(200)]
         [Display(Name = "内容视图")]
         public string ContentView { get; set; }
@@ -53,7 +51,6 @@ namespace Ninesky.Base
         /// <summary>
         /// 内容排序
         /// </summary>
-        [Required]
         [StringLength(200)]
         [Display(Name = "内容排序")]
         public int? ContentOrder { get; set; }

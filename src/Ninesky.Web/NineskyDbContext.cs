@@ -7,7 +7,7 @@
  版本：v1.0.0.0
  =====================================*/
 using Microsoft.EntityFrameworkCore;
-using Ninesky.Base;
+using Ninesky.Models;
 
 namespace Ninesky.Web
 {

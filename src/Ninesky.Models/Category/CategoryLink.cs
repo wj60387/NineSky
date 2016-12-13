@@ -8,7 +8,7 @@
  =====================================*/
 using System.ComponentModel.DataAnnotations;
 
-namespace Ninesky.Base
+namespace Ninesky.Models
 {
     /// <summary>
     /// 链接栏目模型

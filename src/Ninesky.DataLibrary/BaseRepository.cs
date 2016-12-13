@@ -19,14 +19,14 @@ namespace Ninesky.DataLibrary
     /// </summary>
     public class BaseRepository<T> where T :class
     {
-        private DbContext _dbContext;
+        protected DbContext _dbContext;
         public BaseRepository(DbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         /// <summary>
-        /// 查询
+        /// 查询[不含导航属性]
         /// </summary>
         /// <param name="keyValue">主键</param>
         /// <returns>实体</returns>
@@ -36,7 +36,7 @@ namespace Ninesky.DataLibrary
         }
 
         /// <summary>
-        /// 查询
+        /// 查询[不含导航属性]
         /// </summary>
         /// <param name="predicate">查询表达式</param>
         /// <returns>实体</returns>

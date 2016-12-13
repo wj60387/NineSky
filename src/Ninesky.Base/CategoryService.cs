@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Ninesky.DataLibrary;
+using Ninesky.Models;
 
 namespace Ninesky.Base
 {
@@ -20,10 +21,10 @@ namespace Ninesky.Base
     /// </summary>
     public class CategoryService
     {
-        private BaseRepository<Category> _baseRepository;
+        private CategoryRepository _categoryRepository;
         public CategoryService(DbContext dbContext)
         {
-            _baseRepository = new BaseRepository<Category>(dbContext);
+            _categoryRepository = new CategoryRepository(dbContext);
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace Ninesky.Base
         /// <returns></returns>
         public Category Find(int Id)
         {
-            return _baseRepository.Find(new string[] { "General", "Page", "Link" }, c => c.CategoryId == Id);
+            return _categoryRepository.Find(c => c.CategoryId == Id);
         }
     }
 }

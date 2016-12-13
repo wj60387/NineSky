@@ -9,15 +9,15 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Ninesky.Base
+namespace Ninesky.Models
 {
     /// <summary>
-    /// 常规栏目模型
+    /// 单页栏目模型
     /// </summary>
-    public class CategoryGeneral
+    public class CategoryPage
     {
         [Key]
-        public int GeneralId { get; set; }
+        public int PageId { get; set; }
 
         /// <summary>
         /// 栏目ID
@@ -25,6 +25,14 @@ namespace Ninesky.Base
         [Required]
         [Display(Name = "栏目ID")]
         public int CategoryId { get; set; }
+
+        /// <summary>
+        /// 栏目内容
+        /// </summary>
+        [Required]
+        [StringLength(10000)]
+        [Display(Name = "栏目内容")]
+        public string Content { get; set; }
 
         /// <summary>
         /// 栏目视图
@@ -35,32 +43,11 @@ namespace Ninesky.Base
         public string View { get; set; }
 
         /// <summary>
-        /// 模块名称
-        /// </summary>
-        [StringLength(50)]
-        [Display(Name = "模块名称")]
-        public string Module { get; set; }
-
-        /// <summary>
-        /// 内容视图
-        /// </summary>
-        [StringLength(200)]
-        [Display(Name = "内容视图")]
-        public string ContentView { get; set; }
-
-        /// <summary>
-        /// 内容排序
-        /// </summary>
-        [StringLength(200)]
-        [Display(Name = "内容排序")]
-        public int? ContentOrder { get; set; }
-
-        /// <summary>
         /// 栏目
         /// </summary>
         public virtual Category Category { get; set; }
 
-        public CategoryGeneral()
+        public CategoryPage()
         {
             View = "Index";
         }

@@ -9,7 +9,7 @@
  
  using System.ComponentModel.DataAnnotations;
 
-namespace Ninesky.Base
+namespace Ninesky.Models
 {
     /// <summary>
     /// 栏目类型

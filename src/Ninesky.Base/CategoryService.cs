@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Ninesky.DataLibrary;
+using Ninesky.InterfaceDataLibrary;
 using Ninesky.Models;
 
 namespace Ninesky.Base
@@ -21,10 +21,10 @@ namespace Ninesky.Base
     /// </summary>
     public class CategoryService
     {
-        private CategoryRepository _categoryRepository;
-        public CategoryService(DbContext dbContext)
+        private InterfaceBaseRepository<Category> _categoryRepository;
+        public CategoryService(InterfaceBaseRepository<Category> baseRepository)
         {
-            _categoryRepository = new CategoryRepository(dbContext);
+            _categoryRepository = baseRepository;
         }
 
         /// <summary>

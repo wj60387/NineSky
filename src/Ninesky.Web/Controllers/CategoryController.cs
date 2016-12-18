@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ninesky.Base;
 using Ninesky.Models;
+using Ninesky.InterfaceDataLibrary;
+using Ninesky.DataLibrary;
 
 
 namespace Ninesky.Web.Controllers
@@ -33,10 +35,9 @@ namespace Ninesky.Web.Controllers
         /// </summary>
         private CategoryService _categoryService;
 
-        public CategoryController(NineskyDbContext dbContext)
+        public CategoryController(CategoryService categoryService)
         {
-            _dbContext = dbContext;
-            _categoryService = new CategoryService(dbContext);
+            _categoryService = categoryService;
         }
 
         /// <summary>

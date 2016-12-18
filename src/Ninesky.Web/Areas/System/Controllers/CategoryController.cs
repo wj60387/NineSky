@@ -27,11 +27,11 @@ namespace Ninesky.Web.Areas.System.Controllers
         public CategoryController(NineskyDbContext dbcontext)
         {
             _dbContext = dbcontext;
-            _categoryService = new CategoryService(dbcontext);
+            //_categoryService = new CategoryService(dbcontext);
         }
         public IActionResult Index()
         {
-            return View(_categoryService.Find(2));
+            return View("22");
         }
     }
 }

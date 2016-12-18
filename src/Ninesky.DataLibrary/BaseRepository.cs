@@ -11,13 +11,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Ninesky.InterfaceDataLibrary;
 
 namespace Ninesky.DataLibrary
 {
     /// <summary>
     /// 仓储基类
     /// </summary>
-    public class BaseRepository<T> where T :class
+    public class BaseRepository<T> :InterfaceBaseRepository<T> where T : class
     {
         protected DbContext _dbContext;
         public BaseRepository(DbContext dbContext)
@@ -42,7 +43,7 @@ namespace Ninesky.DataLibrary
         /// <returns>实体</returns>
         public virtual T Find(Expression<Func<T, bool>> predicate)
         {
-            return Find(null, predicate);
+            return _dbContext.Set<T>().SingleOrDefault(predicate);
         }
 
         /// <summary>

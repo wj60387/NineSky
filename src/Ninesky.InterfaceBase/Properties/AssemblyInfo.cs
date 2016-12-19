@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Ninesky.InterfaceDataLibrary")]
+[assembly: AssemblyProduct("Ninesky.InterfaceBase")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ba4bb19f-3672-4c1a-8e62-90670df0767e")]
+[assembly: Guid("8441ae00-7539-4a8b-ae2b-3d5f2d45b928")]

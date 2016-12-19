@@ -8,10 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using Ninesky.InterfaceDataLibrary;
-using Ninesky.DataLibrary;
 using Ninesky.Models;
-using Ninesky.Base;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using Newtonsoft.Json;
+using System.Reflection;
 
 namespace Ninesky.Web
 {
@@ -42,11 +43,17 @@ namespace Ninesky.Web
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddDbContext<NineskyDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<DbContext,NineskyDbContext>();
-            services.AddScoped<InterfaceBaseRepository<Category>, BaseRepository<Category>>();
-            services.AddScoped<CategoryService>();
+            //services.AddScoped<CategoryService>();
             services.AddMvc();
-
-            
+            var jsonServices = JObject.Parse(File.ReadAllText("service.json"))["DIService"];
+            var requiredServices = JsonConvert.DeserializeObject<List<ServiceItem>>(jsonServices.ToString());
+            Assembly interfaceAssembly = Assembly.Load(new AssemblyName("Ninesky.InterfaceBase"));
+            Assembly implementationAssembly = Assembly.Load(new AssemblyName("Ninesky.Base"));
+            foreach (var service in requiredServices)
+            {
+                var aa = new ServiceDescriptor(serviceType: interfaceAssembly.GetType(service.serviceType), implementationType: implementationAssembly.GetType(service.implementationType), lifetime: service.lifetime);
+                services.Add(aa);
+            }
 
         }
 

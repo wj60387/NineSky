@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Ninesky.Web;
-using Ninesky.Base;
 
 namespace Ninesky.Web.Migrations
 {

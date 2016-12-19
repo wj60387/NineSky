@@ -7,8 +7,8 @@
 
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>ba4bb19f-3672-4c1a-8e62-90670df0767e</ProjectGuid>
-    <RootNamespace>Ninesky.InterfaceDataLibrary</RootNamespace>
+    <ProjectGuid>8441ae00-7539-4a8b-ae2b-3d5f2d45b928</ProjectGuid>
+    <RootNamespace>Ninesky.InterfaceBase</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>

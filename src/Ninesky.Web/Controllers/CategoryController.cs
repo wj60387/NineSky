@@ -12,10 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Ninesky.Base;
+using Ninesky.InterfaceBase;
 using Ninesky.Models;
-using Ninesky.InterfaceDataLibrary;
-using Ninesky.DataLibrary;
 
 
 namespace Ninesky.Web.Controllers
@@ -33,9 +31,9 @@ namespace Ninesky.Web.Controllers
         /// <summary>
         /// 栏目服务
         /// </summary>
-        private CategoryService _categoryService;
+        private InterfaceCategoryService _categoryService;
 
-        public CategoryController(CategoryService categoryService)
+        public CategoryController(InterfaceCategoryService categoryService)
         {
             _categoryService = categoryService;
         }

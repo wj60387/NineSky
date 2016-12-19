@@ -1,0 +1,9 @@
+﻿{
+  "DIService": [
+    {
+      "serviceType": "Ninesky.InterfaceBase.InterfaceCategoryService",
+      "implementationType": "Ninesky.Base.CategoryService",
+      "lifetime": "Scoped"
+    }
+  ]
+}

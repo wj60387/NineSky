@@ -23,7 +23,7 @@ namespace Ninesky.Base
     {
         public CategoryService(DbContext dbContext):base(dbContext)
         {
-
+            
         }
     }
 }

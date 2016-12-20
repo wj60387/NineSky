@@ -13,6 +13,8 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using Newtonsoft.Json;
 using System.Reflection;
+using System.Runtime.Loader;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Ninesky.Web
 {
@@ -42,18 +44,29 @@ namespace Ninesky.Web
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddDbContext<NineskyDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<DbContext,NineskyDbContext>();
+            services.AddScoped<DbContext, NineskyDbContext>();
             //services.AddScoped<CategoryService>();
             services.AddMvc();
-            var jsonServices = JObject.Parse(File.ReadAllText("service.json"))["DIService"];
-            var requiredServices = JsonConvert.DeserializeObject<List<ServiceItem>>(jsonServices.ToString());
+            var JsonAssembly = JObject.Parse(File.ReadAllText("service.json"))["Assembly"];
+            var requiredServices = JsonConvert.DeserializeObject<List<AssemblyItem>>(JsonAssembly.ToString());
             Assembly interfaceAssembly = Assembly.Load(new AssemblyName("Ninesky.InterfaceBase"));
-            Assembly implementationAssembly = Assembly.Load(new AssemblyName("Ninesky.Base"));
-            foreach (var service in requiredServices)
+            var k2 = AssemblyLoadContext.Default.LoadFromAssemblyPath(AppContext.BaseDirectory + "//Ninesky.Base.dll");
+            foreach (var assembly in JsonAssembly.Values())
             {
-                var aa = new ServiceDescriptor(serviceType: interfaceAssembly.GetType(service.serviceType), implementationType: implementationAssembly.GetType(service.implementationType), lifetime: service.lifetime);
-                services.Add(aa);
+                var jsonServices = assembly["DIService"];
+                //var requiredServices = JsonConvert.DeserializeObject<List<ServiceItem>>(jsonServices.ToString());
+                foreach (var service in requiredServices)
+                {
+                    //var aa = new ServiceDescriptor(serviceType: interfaceAssembly.GetType(service.serviceType), implementationType: k2.GetType(service.implementationType), lifetime: service.lifetime);
+                    //services.Add(aa);
+                }
+                var k1 = 0;
             }
+
+
+
+             var aa = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped;
+
 
         }
 
@@ -91,5 +104,7 @@ namespace Ninesky.Web
 
             });
         }
+
+
     }
 }

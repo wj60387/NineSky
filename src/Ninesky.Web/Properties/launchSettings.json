@@ -12,6 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+        "键": "值",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },

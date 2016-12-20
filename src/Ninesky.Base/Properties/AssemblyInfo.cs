@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Ninesky.Base")]
 [assembly: AssemblyTrademark("")]
-
+//[assembly:AssemblyKeyFile(@"E:\Project\Ninesky\src\Ninesky.Base\bin\Debug\netstandard1.6\Ninesky.BaseAssemblyKey.keys")]
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.

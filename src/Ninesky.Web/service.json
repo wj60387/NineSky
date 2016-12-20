@@ -1,9 +1,15 @@
 ﻿{
-  "DIService": [
+  "Assembly": [
     {
-      "serviceType": "Ninesky.InterfaceBase.InterfaceCategoryService",
-      "implementationType": "Ninesky.Base.CategoryService",
-      "lifetime": "Scoped"
+      "ServiceName": "Ninesky.InterfaceBase",
+      "ImplementationName": "Ninesky.Base.dll",
+      "DIService": [
+        {
+          "ServiceType": "Ninesky.InterfaceBase.InterfaceCategoryService",
+          "ImplementationType": "Ninesky.Base.CategoryService",
+          "LifeTime": "Scoped"
+        }
+      ]
     }
   ]
 }

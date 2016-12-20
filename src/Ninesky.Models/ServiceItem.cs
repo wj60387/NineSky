@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Ninesky.Web
+namespace Ninesky.Models
 {
     /// <summary>
     /// 注入的服务项
@@ -20,12 +20,12 @@ namespace Ninesky.Web
         /// <summary>
         /// 服务类型[含命名空间]
         /// </summary>
-        public string serviceType { get; set; }
+        public string ServiceType { get; set; }
 
         /// <summary>
         /// 实现类类型[含命名空间]
         /// </summary>
-        public string implementationType { get; set; }
+        public string ImplementationType { get; set; }
 
         /// <summary>
         /// 生命周期

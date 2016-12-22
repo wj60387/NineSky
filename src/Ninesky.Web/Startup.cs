@@ -47,26 +47,21 @@ namespace Ninesky.Web
             services.AddScoped<DbContext, NineskyDbContext>();
             //services.AddScoped<CategoryService>();
             services.AddMvc();
-            var JsonAssembly = JObject.Parse(File.ReadAllText("service.json"))["Assembly"];
-            var requiredServices = JsonConvert.DeserializeObject<List<AssemblyItem>>(JsonAssembly.ToString());
-            Assembly interfaceAssembly = Assembly.Load(new AssemblyName("Ninesky.InterfaceBase"));
-            var k2 = AssemblyLoadContext.Default.LoadFromAssemblyPath(AppContext.BaseDirectory + "//Ninesky.Base.dll");
-            foreach (var assembly in JsonAssembly.Values())
+           
+            #region 依赖注入
+            var assemblyCollections =  new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("service.json").Build().GetSection("AssemblyCollections").Get<List<AssemblyItem>>();
+
+            foreach(var assembly in assemblyCollections)
             {
-                var jsonServices = assembly["DIService"];
-                //var requiredServices = JsonConvert.DeserializeObject<List<ServiceItem>>(jsonServices.ToString());
-                foreach (var service in requiredServices)
+                var serviceAssembly = Assembly.Load(new AssemblyName(assembly.ServiceAssembly));
+                var implementationAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(AppContext.BaseDirectory + "//" + assembly.ImplementationAssembly);
+                foreach(var service in assembly.DICollections)
                 {
-                    //var aa = new ServiceDescriptor(serviceType: interfaceAssembly.GetType(service.serviceType), implementationType: k2.GetType(service.implementationType), lifetime: service.lifetime);
-                    //services.Add(aa);
+                    services.Add(new ServiceDescriptor(serviceAssembly.GetType(service.ServiceType), implementationAssembly.GetType(service.ImplementationType), service.LifeTime));
                 }
-                var k1 = 0;
             }
 
-
-
-             var aa = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped;
-
+            #endregion
 
         }
 

@@ -19,5 +19,6 @@ namespace Ninesky.InterfaceBase
     /// </summary>
     public interface InterfaceCategoryService:InterfaceBaseService<Category>
     {
+        
     }
 }

@@ -31,6 +31,6 @@ namespace Ninesky.Models
         /// 生命周期
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
-        public ServiceLifetime lifetime { get; set; }
+        public ServiceLifetime LifeTime { get; set; }
     }
 }

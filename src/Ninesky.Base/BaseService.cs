@@ -22,7 +22,7 @@ namespace Ninesky.Base
     /// </summary>
     public class BaseService<T>:InterfaceBaseService<T> where T:class
     {
-        private DbContext _dbContext;
+        protected DbContext _dbContext;
         public BaseService(DbContext dbContext)
         {
             _dbContext = dbContext;
@@ -62,7 +62,17 @@ namespace Ninesky.Base
             return Count(predicate) > 0;
         }
 
-        public virtual T Find(params object[] keyValues)
+        /// <summary>
+        /// 查找
+        /// </summary>
+        /// <param name="Id">主键</param>
+        /// <returns></returns>
+        public virtual T Find(int Id)
+        {
+            return _dbContext.Set<T>().Find(Id);
+        }
+
+        public virtual T Find(object[] keyValues)
         {
             return _dbContext.Set<T>().Find(keyValues);
         }

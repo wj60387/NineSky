@@ -30,7 +30,7 @@ namespace Ninesky.Web.Areas.System.Controllers
         }
         public IActionResult Index()
         {
-            return View("22");
+            return View();
         }
     }
 }

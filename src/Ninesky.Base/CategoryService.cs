@@ -23,7 +23,11 @@ namespace Ninesky.Base
     {
         public CategoryService(DbContext dbContext):base(dbContext)
         {
-            
+        }
+
+        public override Category Find(int Id)
+        {
+            return _dbContext.Set<Category>().Include("General").Include("Page").Include("Link").SingleOrDefault(c => c.CategoryId == Id);
         }
     }
 }

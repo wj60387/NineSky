@@ -18,15 +18,15 @@ namespace Ninesky.Models
         /// <summary>
         ///  服务的程序集名称[不含后缀]
         /// </summary>
-        public string ServiceName { get; set; }
+        public string ServiceAssembly { get; set; }
         /// <summary>
         /// 实现程序集名称[函后缀.dll]
         /// </summary>
-        public string ImplementationName { get; set; }
+        public string ImplementationAssembly { get; set; }
 
         /// <summary>
         /// 注入项目
         /// </summary>
-        public List<ServiceItem> DIService { get; set; }
+        public List<ServiceItem> DICollections { get; set; }
     }
 }

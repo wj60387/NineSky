@@ -54,9 +54,17 @@ namespace Ninesky.InterfaceBase
         /// <summary>
         /// 查找
         /// </summary>
+        /// <param name="Id">主键</param>
+        /// <returns></returns>
+        T Find(int Id);
+
+        /// <summary>
+        /// 查找
+        /// </summary>
         /// <param name="keyValues">主键</param>
         /// <returns></returns>
-        T Find(params object[] keyValues);
+        T Find(object[] keyValues);
+        
 
         /// <summary>
         /// 查找

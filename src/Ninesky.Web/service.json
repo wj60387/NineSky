@@ -1,9 +1,9 @@
 ﻿{
-  "Assembly": [
+  "AssemblyCollections": [
     {
-      "ServiceName": "Ninesky.InterfaceBase",
-      "ImplementationName": "Ninesky.Base.dll",
-      "DIService": [
+      "ServiceAssembly": "Ninesky.InterfaceBase",
+      "ImplementationAssembly": "Ninesky.Base.dll",
+      "DICollections": [
         {
           "ServiceType": "Ninesky.InterfaceBase.InterfaceCategoryService",
           "ImplementationType": "Ninesky.Base.CategoryService",

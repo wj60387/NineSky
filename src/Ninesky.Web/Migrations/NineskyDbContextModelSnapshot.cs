@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Ninesky.Web;
+using Ninesky.Models;
 
 namespace Ninesky.Web.Migrations
 {
@@ -16,13 +17,12 @@ namespace Ninesky.Web.Migrations
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Ninesky.Base.Category", b =>
+            modelBuilder.Entity("Ninesky.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(1000);
 
                     b.Property<string>("Name")
@@ -33,9 +33,9 @@ namespace Ninesky.Web.Migrations
 
                     b.Property<int>("ParentId");
 
-                    b.Property<string>("Target")
-                        .IsRequired()
-                        .HasMaxLength(20);
+                    b.Property<string>("ParentPath");
+
+                    b.Property<int>("Target");
 
                     b.Property<int>("Type");
 
@@ -44,7 +44,7 @@ namespace Ninesky.Web.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Ninesky.Base.CategoryGeneral", b =>
+            modelBuilder.Entity("Ninesky.Models.CategoryGeneral", b =>
                 {
                     b.Property<int>("GeneralId")
                         .ValueGeneratedOnAdd();
@@ -52,15 +52,12 @@ namespace Ninesky.Web.Migrations
                     b.Property<int>("CategoryId");
 
                     b.Property<int?>("ContentOrder")
-                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("ContentView")
-                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("Module")
-                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.Property<string>("View")
@@ -75,7 +72,7 @@ namespace Ninesky.Web.Migrations
                     b.ToTable("CategoryGeneral");
                 });
 
-            modelBuilder.Entity("Ninesky.Base.CategoryLink", b =>
+            modelBuilder.Entity("Ninesky.Models.CategoryLink", b =>
                 {
                     b.Property<int>("LinkId")
                         .ValueGeneratedOnAdd();
@@ -94,7 +91,7 @@ namespace Ninesky.Web.Migrations
                     b.ToTable("CategoryLink");
                 });
 
-            modelBuilder.Entity("Ninesky.Base.CategoryPage", b =>
+            modelBuilder.Entity("Ninesky.Models.CategoryPage", b =>
                 {
                     b.Property<int>("PageId")
                         .ValueGeneratedOnAdd();
@@ -117,27 +114,27 @@ namespace Ninesky.Web.Migrations
                     b.ToTable("CategoryPage");
                 });
 
-            modelBuilder.Entity("Ninesky.Base.CategoryGeneral", b =>
+            modelBuilder.Entity("Ninesky.Models.CategoryGeneral", b =>
                 {
-                    b.HasOne("Ninesky.Base.Category", "Category")
+                    b.HasOne("Ninesky.Models.Category", "Category")
                         .WithOne("General")
-                        .HasForeignKey("Ninesky.Base.CategoryGeneral", "CategoryId")
+                        .HasForeignKey("Ninesky.Models.CategoryGeneral", "CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Ninesky.Base.CategoryLink", b =>
+            modelBuilder.Entity("Ninesky.Models.CategoryLink", b =>
                 {
-                    b.HasOne("Ninesky.Base.Category")
+                    b.HasOne("Ninesky.Models.Category")
                         .WithOne("Link")
-                        .HasForeignKey("Ninesky.Base.CategoryLink", "CategoryId")
+                        .HasForeignKey("Ninesky.Models.CategoryLink", "CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Ninesky.Base.CategoryPage", b =>
+            modelBuilder.Entity("Ninesky.Models.CategoryPage", b =>
                 {
-                    b.HasOne("Ninesky.Base.Category", "Category")
+                    b.HasOne("Ninesky.Models.Category", "Category")
                         .WithOne("Page")
-                        .HasForeignKey("Ninesky.Base.CategoryPage", "CategoryId")
+                        .HasForeignKey("Ninesky.Models.CategoryPage", "CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

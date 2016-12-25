@@ -23,7 +23,7 @@ namespace Ninesky.Models
         /// </summary>
         [Required]
         [StringLength(50)]
-        
+        [Display(Name = "栏目名称")]
         public string Name { get; set; }
 
         /// <summary>
@@ -44,6 +44,11 @@ namespace Ninesky.Models
         public int ParentId { get; set; }
 
         /// <summary>
+        /// 父栏目栏目路径[从根栏目到父栏目—0,1]
+        /// </summary>
+        public string ParentPath { get; set; }
+
+        /// <summary>
         /// 排序
         /// </summary>
         /// <remarks>
@@ -57,13 +62,13 @@ namespace Ninesky.Models
         /// 打开目标
         /// </summary>
         [Required]
-        [StringLength(20)]
         [Display(Name = "打开目标")]
-        public string Target { get; set; }
+        public LinkTarget Target { get; set; }
 
         /// <summary>
         /// 栏目说明
         /// </summary>
+        [DataType(DataType.MultilineText)]
         [StringLength(1000)]
         [Display(Name = "栏目说明")]
         public string Description { get; set; }

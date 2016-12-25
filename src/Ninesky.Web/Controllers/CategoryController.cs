@@ -23,10 +23,6 @@ namespace Ninesky.Web.Controllers
     /// </summary>
     public class CategoryController : Controller
     {
-        /// <summary>
-        /// 数据上下文
-        /// </summary>
-        private NineskyDbContext _dbContext;
 
         /// <summary>
         /// 栏目服务

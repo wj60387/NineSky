@@ -1,0 +1,83 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set widths on the form inputs since otherwise they're 100% wide */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"]
+{
+    width: 100%;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+  /* Hide captions */
+  .carousel-caption {
+    display: none
+  }
+}
+.btn-dropdown {
+  color: #555;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.btn-dropdown:hover,
+.btn-dropdown:focus,
+.btn-dropdown.focus,
+.btn-dropdown:active,
+.btn-dropdown.active,
+.open > .dropdown-toggle.btn-dropdown {
+  color: #555;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.btn-dropdown:active,
+.btn-dropdown.active,
+.open > .dropdown-toggle.btn-dropdown {
+  background-image: none;
+}
+.btn-dropdown.disabled,
+.btn-dropdown[disabled],
+fieldset[disabled] .btn-dropdown,
+.btn-dropdown.disabled:hover,
+.btn-dropdown[disabled]:hover,
+fieldset[disabled] .btn-dropdown:hover,
+.btn-dropdown.disabled:focus,
+.btn-dropdown[disabled]:focus,
+fieldset[disabled] .btn-dropdown:focus,
+.btn-dropdown.disabled.focus,
+.btn-dropdown[disabled].focus,
+fieldset[disabled] .btn-dropdown.focus,
+.btn-dropdown.disabled:active,
+.btn-dropdown[disabled]:active,
+fieldset[disabled] .btn-dropdown:active,
+.btn-dropdown.disabled.active,
+.btn-dropdown[disabled].active,
+fieldset[disabled] .btn-dropdown.active {
+  background-color: #004166;
+  border-color: #00314c;
+}
+.btn-dropdown .badge {
+  color: #004166;
+  background-color: #ffffff;
+}

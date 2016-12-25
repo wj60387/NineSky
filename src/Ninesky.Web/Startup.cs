@@ -45,7 +45,6 @@ namespace Ninesky.Web
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddDbContext<NineskyDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<DbContext, NineskyDbContext>();
-            //services.AddScoped<CategoryService>();
             services.AddMvc();
            
             #region 依赖注入

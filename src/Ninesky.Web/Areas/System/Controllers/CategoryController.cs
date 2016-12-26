@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ninesky.InterfaceBase;
 using Ninesky.Models;
+using Ninesky.Web.Models;
 
 namespace Ninesky.Web.Areas.System.Controllers
 {
@@ -58,7 +59,19 @@ namespace Ninesky.Web.Areas.System.Controllers
         /// <returns></returns>
         public IActionResult Tree()
         {
-            return Json(_categoryService.FindTree(null));
+            List<zTreeNode> nodes;
+            var categories = _categoryService.FindTree(null);
+            if (categories != null)
+            {
+                nodes = new List<zTreeNode>(categories.Count());
+                foreach(var category in categories)
+                {
+                    var node = new zTreeNode() { id = category.CategoryId, name = category.Name, url = Url.Action("Details", "Category", new { id = category.CategoryId }) };
+                    nodes.Add(node);
+                }
+            }
+            else nodes = new List<zTreeNode>();
+            return Json(nodes);
         }
     }
 }

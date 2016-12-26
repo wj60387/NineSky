@@ -95,9 +95,6 @@
         $(document).ready(function () {
             InitTree("#dropdown-categorytree", null, "@Url.Action("ParentTree", "Category")", {})
             InitTree("#categoryTree", null, "@Url.Action("Tree", "Category")", {})
-            @*$.post("@Url.Action("ParentTree", "Category")", null, function (data) {
-                zTreeObj = $.fn.zTree.init($("#dropdown-categorytree"), setting, data);
-             }, "json");*@
 
         });
         $('.dropdown').on('hide.bs.dropdown', function () {

@@ -9,82 +9,69 @@
     <li class="active">添加常规栏目</li>
 </ol>
 
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form asp-action="Add">
+            <div class="form-horizontal">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Type" />
+                <div class="form-group">
+                    <label asp-for="ParentId" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <div class="dropdown">
+                            <button class="btn btn-dropdown dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                无
+                                <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <ul id="dropdown-categorytree" class="ztree"></ul>
+                            </div>
+                            <input asp-for="ParentId" class="form-control" style="width:0; visibility:hidden; position:absolute;padding:0" />
+                        </div>
 
-<form asp-action="View">
-    <div class="form-horizontal">
-        <h4> <span class="glyphicon glyphicon-plus"></span> 添加栏目</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="CategoryId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <div class="dropdown">
-                    <button class="btn btn-dropdown dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                        无
-                        <span class="caret"></span>
-                    </button>
-                    <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                       <ul id="dropdown-categorytree" class="ztree"></ul>
+
+                        <span asp-validation-for="ParentId" class="text-danger"></span>
                     </div>
-                    <input asp-for="CategoryId" class="form-control" style="width:0; visibility:hidden; position:absolute;padding:0" />
                 </div>
-
-               
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="Name" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Order" class="form-control" />
+                        <span asp-validation-for="Order" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Target" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <select asp-for="Target" asp-items="Html.GetEnumSelectList<Ninesky.Models.LinkTarget>()" class="selectpicker" data-style="btn-dropdown"></select>
+                        <span asp-validation-for="Target" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="添加" class="btn btn-default" />
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Name" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Type" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="Type" asp-items="Html.GetEnumSelectList<Ninesky.Models.CategoryType>()" class="selectpicker" data-style="btn-dropdown"></select>
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ParentId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="ParentId" class="form-control" />
-                <span asp-validation-for="ParentId" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Order" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Order" class="form-control" />
-                <span asp-validation-for="Order" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Target" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="Target" asp-items="Html.GetEnumSelectList<Ninesky.Models.LinkTarget>()" class="selectpicker" data-style="btn-dropdown"></select>
-                <span asp-validation-for="Target" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Description" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+        </form>
     </div>
-</form>
-
+</div>
 @section aside{
-    
+
     @Html.Partial("Aside")
 }
 @section Scripts {
@@ -97,8 +84,8 @@
             InitTree("#categoryTree", null, "@Url.Action("Tree", "Category")", {})
 
         });
-        $('.dropdown').on('hide.bs.dropdown', function () {
-            return false;
-        });
+        //$('.dropdown').on('hide.bs.dropdown', function () {
+        //    return false;
+        //});
     </script>
 }

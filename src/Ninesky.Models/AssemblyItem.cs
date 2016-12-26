@@ -20,12 +20,12 @@ namespace Ninesky.Models
         /// </summary>
         public string ServiceAssembly { get; set; }
         /// <summary>
-        /// 实现程序集名称[函后缀.dll]
+        /// 实现程序集名称[含后缀.dll]
         /// </summary>
         public string ImplementationAssembly { get; set; }
 
         /// <summary>
-        /// 注入项目
+        /// 注入服务集合
         /// </summary>
         public List<ServiceItem> DICollections { get; set; }
     }

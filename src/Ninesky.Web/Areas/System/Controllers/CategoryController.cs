@@ -66,7 +66,7 @@ namespace Ninesky.Web.Areas.System.Controllers
                 nodes = new List<zTreeNode>(categories.Count());
                 foreach(var category in categories)
                 {
-                    var node = new zTreeNode() { id = category.CategoryId, name = category.Name, url = Url.Action("Details", "Category", new { id = category.CategoryId }) };
+                    var node = new zTreeNode() { id = category.CategoryId, pId= category.ParentId, name = category.Name, url = Url.Action("Details", "Category", new { id = category.CategoryId }) };
                     nodes.Add(node);
                 }
             }

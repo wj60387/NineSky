@@ -13,7 +13,7 @@ using Newtonsoft.Json.Converters;
 namespace Ninesky.Models
 {
     /// <summary>
-    /// 注入的服务项
+    /// 注入服务配置
     /// </summary>
     public class ServiceItem
     {

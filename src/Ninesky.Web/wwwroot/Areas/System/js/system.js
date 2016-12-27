@@ -1,7 +1,11 @@
-﻿
-function InitTree(tree,data,url,setting)
+﻿$(document).ready(function()
 {
-$.post(url, data, function (result) {
-        categoryTree = $.fn.zTree.init($(tree),setting , result);
-    }, "json");
-}
+    InitTree("#categoryTree", null, $("#categoryTree").attr("data-url"), {});
+});
+
+    function InitTree(tree,data,url,setting)
+    {
+        $.post(url, data, function (result) {
+            categoryTree = $.fn.zTree.init($(tree),setting , result);
+        }, "json");
+    }

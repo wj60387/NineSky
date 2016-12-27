@@ -33,13 +33,19 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-controller="Home" asp-action="Index">首页</a></li>
+                    <li><a asp-controller="Home" asp-action="Index"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">栏目管理 <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li> <a asp-controller="Category" asp-action="Add">添加常规栏目</a></li>
-                        <li> <a asp-controller="Category" asp-action="AddPage">添加单页栏目</a></li>
-                        <li> <a asp-controller="Category" asp-action="AddLink">添加链接栏目</a></li>
+                        <li> <a asp-controller="Category" asp-action="Add"><span class="glyphicon glyphicon-folder-close"></span> 添加常规栏目</a></li>
+                        <li> <a asp-controller="Category" asp-action="AddPage"><span class="glyphicon glyphicon-file"></span> 添加单页栏目</a></li>
+                        <li> <a asp-controller="Category" asp-action="AddLink"><span class="glyphicon glyphicon-link"></span> 添加链接栏目</a></li>
                     </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> 系统配置 <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li> <a asp-controller="Module" asp-action="Index"><span class="glyphicon glyphicon-th-large"></span> 模块配置</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>

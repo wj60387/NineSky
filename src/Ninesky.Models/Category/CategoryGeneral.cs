@@ -38,7 +38,7 @@ namespace Ninesky.Models
         /// 模块名称
         /// </summary>
         [StringLength(50)]
-        [Display(Name = "模块名称")]
+        [Display(Name = "内容模块")]
         public string Module { get; set; }
 
         /// <summary>

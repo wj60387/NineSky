@@ -50,7 +50,7 @@ namespace Ninesky.Web.Areas.System.Controllers
         /// <returns></returns>
         public IActionResult ParentTree()
         {
-            return Json(_categoryService.FindTree(CategoryType.General));
+            return Json(_categoryService.FindTree(CategoryType.General).Select(c => new zTreeNode { id = c.CategoryId, name = c.Name, pId = c.CategoryId }));
         }
 
         /// <summary>

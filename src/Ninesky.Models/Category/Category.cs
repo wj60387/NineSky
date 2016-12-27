@@ -55,7 +55,7 @@ namespace Ninesky.Models
         /// 数字越小越靠前
         /// </remarks>
         [Required]
-        [Display(Name = "排序")]
+        [Display(Name = "栏目排序")]
         public int Order { get; set; }
 
         /// <summary>

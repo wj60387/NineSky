@@ -18,18 +18,14 @@
                 <div class="form-group">
                     <label asp-for="ParentId" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <div class="dropdown">
-                            <button class="btn btn-dropdown dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                                无
-                                <span class="caret"></span>
-                            </button>
-                            <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                <ul id="dropdown-categorytree" class="ztree"></ul>
+                        <div class="input-group"  style="width:280px;">
+                            <input id="ParentId-text" type="text" class="form-control" readonly value="无" />
+                            <ul id="ParentId-dropdown" class="dropdown-menu dropdown-menu-left ztree"></ul>
+                            <div class="input-group-btn">
+                                <button id="ParentId-btn" type="button" class="btn btn-default"><span class="caret"></span></button>
                             </div>
                             <input asp-for="ParentId" class="form-control" style="width:0; visibility:hidden; position:absolute;padding:0" />
                         </div>
-
-
                         <span asp-validation-for="ParentId" class="text-danger"></span>
                     </div>
                 </div>
@@ -38,6 +34,13 @@
                     <div class="col-md-10">
                         <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="General.View" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="General.View" class="form-control" />
+                        <span asp-validation-for="General.View" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -57,8 +60,29 @@
                 <div class="form-group">
                     <label asp-for="Description" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <input asp-for="Description" class="form-control" />
+                        <textarea asp-for="Description" class="form-control" ></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="General.Module" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="General.Module" class="form-control" />
+                        <span asp-validation-for="General.Module" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="General.ContentView" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="General.ContentView" class="form-control" />
+                        <span asp-validation-for="General.ContentView" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="General.ContentOrder" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="General.ContentOrder" class="form-control" />
+                        <span asp-validation-for="General.ContentOrder" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -77,15 +101,31 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
-        var zTreeObj;
+        var dropdownCategoryTree;
+        var setting = {
+            async: {
+                enable: true,
+                url: "@Url.Action("ParentTree", "Category")",
+                autoParam: ["id", "name","pid"]
+            },
+            callback: {
+                onClick: function(event, treeId, treeNode) {
+                    $("#ParentId").val(treeNode.id);
+                    $("#ParentId-text").val(treeNode.name);
+                    $("#ParentId-dropdown").hide();
+                }
+            }
+        };
         // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
         $(document).ready(function () {
-            InitTree("#dropdown-categorytree", null, "@Url.Action("ParentTree", "Category")", {})
-            InitTree("#categoryTree", null, "@Url.Action("Tree", "Category")", {})
-
+            dropdownCategoryTree = $.fn.zTree.init($("#ParentId-dropdown"), setting);
+            dropdownCategoryTree.addNodes(null, { id: 0, name: "无" });
+            $("#ParentId-text").click(function () {
+                $("#ParentId-dropdown").show();
+            });
+            $("#ParentId-btn").click(function () {
+                $("#ParentId-dropdown").show();
+             });
         });
-        //$('.dropdown').on('hide.bs.dropdown', function () {
-        //    return false;
-        //});
     </script>
 }

@@ -6,7 +6,9 @@
  代码：git.oschina.net/ninesky/Ninesky
  版本：v1.0.0.0
  =====================================*/
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Ninesky.Models
 {
@@ -47,5 +49,10 @@ namespace Ninesky.Models
         [Required]
         [Display(Name = "启用")]
         public bool Enabled { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public virtual List<ModuleOrder> ModuleOrders { get; set; }
     }
 }

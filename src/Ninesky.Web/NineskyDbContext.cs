@@ -13,7 +13,13 @@ namespace Ninesky.Web
 {
     public class NineskyDbContext:DbContext
     {
+        /// <summary>
+        /// 模块
+        /// </summary>
         public DbSet<Module> Modules { get; set; }
+        /// <summary>
+        /// 栏目
+        /// </summary>
         public DbSet<Category> Categories { get; set; }
 
         public NineskyDbContext(DbContextOptions options):base(options)

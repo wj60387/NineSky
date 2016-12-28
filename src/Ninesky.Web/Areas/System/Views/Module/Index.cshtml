@@ -20,20 +20,27 @@
             $('#table').bootstrapTable({
                 url: '@Url.Action("List")',
                 columns: [{
-                    field: 'ModuleId',
+                    field: 'moduleId',
                     title: '序号'
                 }, {
-                    field: 'Name',
-                    title: '名称'
+                    field: 'name',
+                    title: '名称',
+                    formatter: function (value, row, index) {
+                        return '<a href="@Url.Action("Details")/' + row.moduleId + '">' + value + '</a>';
+                    }
                 }, {
-                    field: 'Controller',
+                    field: 'controller',
                     title: '控制器'
                 }, {
-                    field: 'Description',
+                    field: 'description',
                     title: '说明'
                 }, {
-                    field: 'Enabled',
-                    title: '状态'
+                    field: 'enabled',
+                    title: '状态',
+                    formatter:function(value,row,index)
+                    {
+                        return value ? '<i class="fa fa-check" aria-hidden="true"></i>' : '<i class="fa fa-ban" aria-hidden="true"></i>';
+                    }
                 }]
             });
         });

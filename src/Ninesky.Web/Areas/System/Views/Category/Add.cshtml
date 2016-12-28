@@ -53,7 +53,7 @@
                 <div class="form-group">
                     <label asp-for="Target" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <select asp-for="Target" asp-items="Html.GetEnumSelectList<Ninesky.Models.LinkTarget>()" class="selectpicker" data-style="btn-dropdown"></select>
+                        <select asp-for="Target" asp-items="Html.GetEnumSelectList<Ninesky.Models.LinkTarget>()" class="selectpicker form-control" data-style="btn-dropdown"></select>
                         <span asp-validation-for="Target" class="text-danger"></span>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                 <div class="form-group">
                     <label asp-for="General.Module" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <input asp-for="General.Module" class="form-control" />
+                        <select asp-for="General.Module" asp-items="@ViewData["Modules"] as List<SelectListItem>" class="selectpicker form-control" data-style="btn-dropdown"></select>
                         <span asp-validation-for="General.Module" class="text-danger"></span>
                     </div>
                 </div>
@@ -116,8 +116,22 @@
                 }
             }
         };
+        function toggleContent()
+        {
+            if ($("#General_Module").selectpicker('val') == "") {
+
+                $("#General_ContentView").parent().parent().hide();
+                $("#General_ContentOrder").parent().parent().hide();
+            }
+            else {
+                $("#General_ContentView").parent().parent().show();
+                $("#General_ContentOrder").parent().parent().show();
+
+            }
+        }
         // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
         $(document).ready(function () {
+            toggleContent();
             dropdownCategoryTree = $.fn.zTree.init($("#ParentId-dropdown"), setting);
             dropdownCategoryTree.addNodes(null, { id: 0, name: "无" });
             $("#ParentId-text").click(function () {
@@ -125,7 +139,12 @@
             });
             $("#ParentId-btn").click(function () {
                 $("#ParentId-dropdown").show();
-             });
+            });
+            toggleContent();
+            $('#General_Module').on('changed.bs.select', function (e) {
+                toggleContent();
+            });
+            
         });
     </script>
 }

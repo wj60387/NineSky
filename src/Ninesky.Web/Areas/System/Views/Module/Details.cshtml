@@ -1,0 +1,17 @@
+﻿@model Ninesky.Models.Module
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<ol class="breadcrumb">
+    <li><span class="fa fa-home"></span>  <a asp-controller="Home" asp-action="Index">首页</a></li>
+    <li><a asp-controller="System" asp-action="Index">系统配置</a></li>
+    <li><a asp-controller="Module" asp-action="Index">模块管理</a></li>
+    <li class="active">@Model.Name</li>
+</ol>
+<table id="table"></table>
+
+@section aside{
+
+    @Html.Partial("SystemAside")
+}

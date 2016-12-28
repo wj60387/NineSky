@@ -14,7 +14,7 @@
 input,
 select,
 textarea,
-bootstrap-select {
+.bootstrap-select {
     max-width: 280px;
 }
 

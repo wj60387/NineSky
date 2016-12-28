@@ -24,14 +24,38 @@ namespace Ninesky.Web.Areas.System.Controllers
         {
             _moduleService = moduleService;
         }
+
+        /// <summary>
+        /// 详细
+        /// </summary>
+        /// <param name="id">模块ID</param>
+        /// <returns></returns>
+        public IActionResult Details(int id)
+        {
+            return View(_moduleService.Find(id));
+        }
+
         public IActionResult Index()
         {
             return View();
         }
-
+        /// <summary>
+        /// 模块列表
+        /// </summary>
+        /// <returns></returns>
         public IActionResult List()
         {
-            return Json(_moduleService.FindList());
+            return Json(_moduleService.FindList().ToList());
+        }
+
+        /// <summary>
+        /// 排序列表
+        /// </summary>
+        /// <param name="id">模块Id</param>
+        /// <returns></returns>
+        public IActionResult OrderList(int id)
+        {
+            return Json(_moduleService.FindOrderList(id).ToList());
         }
     }
 }

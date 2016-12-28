@@ -9,8 +9,8 @@ using Ninesky.Models;
 namespace Ninesky.Web.Migrations
 {
     [DbContext(typeof(NineskyDbContext))]
-    [Migration("20161228072414_AddModule")]
-    partial class AddModule
+    [Migration("20161228135427_Module")]
+    partial class Module
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

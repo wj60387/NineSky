@@ -9,9 +9,10 @@ using Ninesky.Models;
 namespace Ninesky.Web.Migrations
 {
     [DbContext(typeof(NineskyDbContext))]
-    partial class NineskyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161228072414_AddModule")]
+    partial class AddModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")

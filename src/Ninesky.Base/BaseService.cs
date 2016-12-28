@@ -80,6 +80,15 @@ namespace Ninesky.Base
             return _dbContext.Set<T>().SingleOrDefault(predicate);
         }
 
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<T> FindList()
+        {
+            return _dbContext.Set<T>();
+        }
+
         public virtual IQueryable<T> FindList<TKey>(int number, Expression<Func<T, bool>> predicate)
         {
             var entityList = _dbContext.Set<T>().Where(predicate);

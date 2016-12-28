@@ -6,13 +6,9 @@
  代码：git.oschina.net/ninesky/Ninesky
  版本：v1.0.0.0
  =====================================*/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ninesky.Models.Category
+namespace Ninesky.Models
 {
     /// <summary>
     /// 模块模型
@@ -33,7 +29,6 @@ namespace Ninesky.Models.Category
         /// <summary>
         /// 模块控制器
         /// </summary>
-        [Required]
         [StringLength(50)]
         [Display(Name = "模块控制器")]
         public string Controller { get; set; }
@@ -45,5 +40,12 @@ namespace Ninesky.Models.Category
         [StringLength(1000)]
         [Display(Name = "模块说明")]
         public string Description { get; set; }
+
+        /// <summary>
+        /// 是否启用
+        /// </summary>
+        [Required]
+        [Display(Name = "启用")]
+        public bool Enabled { get; set; }
     }
 }

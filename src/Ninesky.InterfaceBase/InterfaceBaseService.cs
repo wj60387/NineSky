@@ -71,6 +71,11 @@ namespace Ninesky.InterfaceBase
         /// <returns></returns>
         T Find(Expression<Func<T, bool>> predicate);
 
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <returns></returns>
+        IQueryable<T> FindList();
 
         IQueryable<T> FindList<TKey>(int number, Expression<Func<T, bool>> predicate);
 

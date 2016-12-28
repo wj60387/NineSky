@@ -5,6 +5,11 @@
       "ImplementationAssembly": "Ninesky.Base.dll",
       "DICollections": [
         {
+          "ServiceType": "Ninesky.InterfaceBase.InterfaceModuleService",
+          "ImplementationType": "Ninesky.Base.ModuleService",
+          "LifeTime": "Scoped"
+        },
+        {
           "ServiceType": "Ninesky.InterfaceBase.InterfaceCategoryService",
           "ImplementationType": "Ninesky.Base.CategoryService",
           "LifeTime": "Scoped"

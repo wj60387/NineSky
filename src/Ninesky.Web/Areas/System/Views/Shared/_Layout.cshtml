@@ -15,7 +15,9 @@
     </environment>
     <link rel="stylesheet" href="~/Areas/System/css/system.css" />
     <link rel="stylesheet" href="~/lib/bootstrap-select/dist/css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/Areas/System/css/ztreemetro/metroStyle.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-table/dist/bootstrap-table.min.css" />
     <link rel="stylesheet" href="~/Areas/System/css/system.css" />
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
@@ -29,22 +31,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-cog"></span> 系统管理</a>
+                <a class="navbar-brand" href="#"> 系统管理</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-controller="Home" asp-action="Index"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">栏目管理 <span class="caret"></span></a>
+                    <li><a asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span> 首页</a></li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa fa-list"></span> 栏目管理 <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li> <a asp-controller="Category" asp-action="Add"><span class="glyphicon glyphicon-folder-close"></span> 添加常规栏目</a></li>
-                        <li> <a asp-controller="Category" asp-action="AddPage"><span class="glyphicon glyphicon-file"></span> 添加单页栏目</a></li>
-                        <li> <a asp-controller="Category" asp-action="AddLink"><span class="glyphicon glyphicon-link"></span> 添加链接栏目</a></li>
+                        <li> <a asp-controller="Category" asp-action="Add"><span class="fa fa-folder"></span> 添加常规栏目</a></li>
+                        <li> <a asp-controller="Category" asp-action="AddPage"><span class="fa fa-file"></span> 添加单页栏目</a></li>
+                        <li> <a asp-controller="Category" asp-action="AddLink"><span class="fa fa-link"></span> 添加链接栏目</a></li>
                     </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> 系统配置 <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span> 系统配置 <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li> <a asp-controller="Module" asp-action="Index"><span class="glyphicon glyphicon-th-large"></span> 模块配置</a></li>
+                            <li> <a asp-controller="Module" asp-action="Index"><span class="fa fa-th-large"></span> 模块配置</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -78,9 +80,11 @@
         </script>
 
     </environment>
-    <script src="~/Areas/System/js/system.js"></script>
     <script src="~/lib/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="~/lib/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="~/lib/bootstrap-table/dist/locale/bootstrap-table-zh-CN.min.js"></script>
     <script src="~/Areas/System/js/jquery.ztree.core.js"></script>
+    
     <script src="~/Areas/System/js/system.js"></script>
     @RenderSection("scripts", required: false)
 </body>

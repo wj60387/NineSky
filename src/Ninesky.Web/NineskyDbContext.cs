@@ -13,6 +13,7 @@ namespace Ninesky.Web
 {
     public class NineskyDbContext:DbContext
     {
+        public DbSet<Module> Modules { get; set; }
         public DbSet<Category> Categories { get; set; }
 
         public NineskyDbContext(DbContextOptions options):base(options)

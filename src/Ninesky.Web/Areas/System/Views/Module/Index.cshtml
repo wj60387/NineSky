@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "模块管理";
+}
+
+<ol class="breadcrumb">
+    <li><span class="fa fa-home"></span>  <a asp-controller="Home" asp-action="Index">首页</a></li>
+    <li><a asp-controller="System" asp-action="Index">系统配置</a></li>
+    <li class="active">模块管理</li>
+</ol>
+<table id="table"></table>
+
+@section aside{
+
+    @Html.Partial("SystemAside")
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#table').bootstrapTable({
+                url: '@Url.Action("List")',
+                columns: [{
+                    field: 'ModuleId',
+                    title: '序号'
+                }, {
+                    field: 'Name',
+                    title: '名称'
+                }, {
+                    field: 'Controller',
+                    title: '控制器'
+                }, {
+                    field: 'Description',
+                    title: '说明'
+                }, {
+                    field: 'Enabled',
+                    title: '状态'
+                }]
+            });
+        });
+    </script>
+}

@@ -35,10 +35,10 @@ namespace Ninesky.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// 排序
+        /// 值
         /// </summary>
         [Required]
-        [Display(Name = "排序")]
+        [Display(Name = "值")]
         public int Order { get; set; }
 
         /// <summary>

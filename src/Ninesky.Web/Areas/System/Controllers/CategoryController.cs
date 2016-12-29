@@ -39,6 +39,15 @@ namespace Ninesky.Web.Areas.System.Controllers
             return View(new Category() { Type = CategoryType.General, ParentId=0, Order=0, Target= LinkTarget._self, General= new CategoryGeneral() { View="Index"} });
         }
 
+        [HttpPost]
+        public IActionResult Add([FromServices]InterfaceModuleService moduleService,Category category)
+        {
+            var modules = moduleService.FindList().Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
+            modules.Insert(0, new SelectListItem() { Text = "ÎÞ", Value = "", Selected = true });
+            ViewData["Modules"] = modules;
+            return View(category);
+        }
+
         /// <summary>
         /// À¸Ä¿Ê×Ò³
         /// </summary>

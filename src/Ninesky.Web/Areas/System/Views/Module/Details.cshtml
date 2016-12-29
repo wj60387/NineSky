@@ -9,9 +9,67 @@
     <li><a asp-controller="Module" asp-action="Index">模块管理</a></li>
     <li class="active">@Model.Name</li>
 </ol>
-<table id="table"></table>
+
 
 @section aside{
 
     @Html.Partial("SystemAside")
+}
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#base" role="tab" data-toggle="tab">基本信息</a></li>
+    <li role="presentation"><a href="#order" role="tab" data-toggle="tab">排序方式</a></li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="base">
+        <dl class="dl-horizontal">
+            <dt>
+                <label asp-for="Name"></label>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                <label asp-for="Controller"></label>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Controller)
+            </dd>
+            <dt>
+                <label asp-for="Description"></label>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt>
+                <label asp-for="Enabled"></label>
+            </dt>
+            <dd>
+                <input type="checkbox" asp-for="Enabled" />
+            </dd>
+        </dl>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="order"><table id="moduleordertable"></table></div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#moduleordertable').bootstrapTable({
+                url: '@Url.Action("OrderList",new{
+            id=Model.ModuleId})',
+                columns: [{
+                    field: 'moduleOrderId',
+                    title: '序号'
+                }, {
+                    field: 'name',
+                    title: '名称',
+                }, {
+                    field: 'order',
+                    title: '值'
+                }]
+            });
+        });
+    </script>
 }

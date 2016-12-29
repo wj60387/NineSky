@@ -51,7 +51,6 @@ namespace Ninesky.Models
         /// <summary>
         /// 内容排序
         /// </summary>
-        [StringLength(200)]
         [Display(Name = "内容排序")]
         public int? ContentOrder { get; set; }
 

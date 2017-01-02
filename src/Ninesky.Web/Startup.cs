@@ -65,7 +65,7 @@ namespace Ninesky.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,NineskyDbContext context)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -97,8 +97,8 @@ namespace Ninesky.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
 
             });
-        }
-
-
+            //初始化数据库
+            //Models.DbInitializer.Initialize(context);
+        }     
     }
 }

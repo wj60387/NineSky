@@ -1264,14 +1264,15 @@
 		makeNodeIcoClass: function(setting, node) {
 			var icoCss = ["ico"];
 			if (!node.isAjaxing) {
-				icoCss[0] = (node.iconSkin ? node.iconSkin + "_" : "") + icoCss[0];
+			    icoCss[0] = (node.iconSkin ? node.iconSkin : "");
 				if (node.isParent) {
 					icoCss.push(node.open ? consts.folder.OPEN : consts.folder.CLOSE);
 				} else {
-					icoCss.push(consts.folder.DOCU);
+					//icoCss.push(consts.folder.DOCU);
 				}
 			}
-			return consts.className.BUTTON + " " + icoCss.join('_');
+		    //return consts.className.BUTTON + " " + icoCss.join('_');
+			return icoCss.join('_');
 		},
 		makeNodeIcoStyle: function(setting, node) {
 			var icoStyle = [];

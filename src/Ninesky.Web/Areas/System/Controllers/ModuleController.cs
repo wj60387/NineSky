@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Ninesky.Web.Models;
 using Ninesky.InterfaceBase;
 
 namespace Ninesky.Web.Areas.System.Controllers
@@ -35,6 +36,33 @@ namespace Ninesky.Web.Areas.System.Controllers
             return View(_moduleService.Find(id));
         }
 
+        [HttpPost]
+        public IActionResult Enable (int id, bool enabled)
+        {
+            JsonResponse jsonResponse = new JsonResponse();
+            var module = _moduleService.Find(id);
+            if(module == null)
+            {
+                jsonResponse.succeed = false;
+                jsonResponse.message = "模块不存在";
+            }
+            else
+            {
+                module.Enabled = enabled;
+                if(_moduleService.Update(module))
+                {
+                    jsonResponse.succeed = true;
+                    jsonResponse.message = "模块已" + (enabled ? "启用" : "禁用");
+                }
+                else
+                {
+                    jsonResponse.succeed = false;
+                    jsonResponse.message = "保存数据失败";
+                }
+            }
+            return Json(jsonResponse);
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -57,5 +85,6 @@ namespace Ninesky.Web.Areas.System.Controllers
         {
             return Json(_moduleService.FindOrderList(id).ToList());
         }
+
     }
 }

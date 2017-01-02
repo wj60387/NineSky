@@ -35,11 +35,11 @@ namespace Ninesky.Models
         public string View { get; set; }
 
         /// <summary>
-        /// 模块名称
+        /// 模块id[大于0时有效]
         /// </summary>
-        [StringLength(50)]
+        [Required]
         [Display(Name = "内容模块")]
-        public string Module { get; set; }
+        public int ModuleId { get; set; }
 
         /// <summary>
         /// 内容视图

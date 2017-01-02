@@ -89,7 +89,7 @@ namespace Ninesky.Base
             return _dbContext.Set<T>();
         }
 
-        public virtual IQueryable<T> FindList<TKey>(int number, Expression<Func<T, bool>> predicate)
+        public virtual IQueryable<T> FindList(int number, Expression<Func<T, bool>> predicate)
         {
             var entityList = _dbContext.Set<T>().Where(predicate);
             if (number > 0) return entityList.Take(number);

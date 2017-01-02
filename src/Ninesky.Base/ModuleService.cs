@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Ninesky.InterfaceBase;
 using Ninesky.Models;
@@ -26,6 +27,16 @@ namespace Ninesky.Base
             return _dbContext.Set<Module>().Include(m => m.ModuleOrders).SingleOrDefault(m => m.ModuleId == Id);
         }
 
+        /// <summary>
+        /// 查找
+        /// </summary>
+        /// <param name="enable">启用</param>
+        /// <returns></returns>
+        public IQueryable<Module> FindList(bool? enable)
+        {
+            if (enable == null) return FindList();
+            else return FindList(0, m => m.Enabled == enable);
+        }
         /// <summary>
         /// 查找排序列表
         /// </summary>

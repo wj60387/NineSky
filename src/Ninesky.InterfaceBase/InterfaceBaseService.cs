@@ -77,12 +77,11 @@ namespace Ninesky.InterfaceBase
         /// <returns></returns>
         IQueryable<T> FindList();
 
-        IQueryable<T> FindList<TKey>(int number, Expression<Func<T, bool>> predicate);
+        IQueryable<T> FindList(int number, Expression<Func<T, bool>> predicate);
 
         /// <summary>
         /// 查询
         /// </summary>
-        /// <typeparam name="TKey">排序属性</typeparam>
         /// <param name="number">显示数量[小于等于0-不启用]</param>
         /// <param name="predicate">查询条件</param>
         /// <param name="keySelector">排序</param>

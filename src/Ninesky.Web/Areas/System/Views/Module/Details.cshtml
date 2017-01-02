@@ -23,6 +23,7 @@
 <!-- Tab panes -->
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="base">
+        <input type="hidden" asp-for="ModuleId" />
         <dl class="dl-horizontal">
             <dt>
                 <label asp-for="Name"></label>
@@ -69,6 +70,19 @@
                     field: 'order',
                     title: '值'
                 }]
+            });
+            $('#Enabled').click(function () {
+                $.post('@Url.Action("Enable", "Module")', { id: $('#ModuleId').val(), enabled: $('#Enabled').prop('checked') }, function (response) { 
+                    if(response.succeed)
+                    {
+                        BootstrapDialog.alert({
+                            title:'消息',
+                            message: response.message,
+                            buttonLabel: '确定'
+                        });
+
+                    }
+                }, 'json');
             });
         });
     </script>

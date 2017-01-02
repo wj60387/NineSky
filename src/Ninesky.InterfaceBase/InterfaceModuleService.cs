@@ -17,6 +17,12 @@ namespace Ninesky.InterfaceBase
     public interface InterfaceModuleService:InterfaceBaseService<Module>
     {
         /// <summary>
+        /// 查找
+        /// </summary>
+        /// <param name="enable">启用</param>
+        /// <returns></returns>
+        IQueryable<Module> FindList(bool? enable);
+        /// <summary>
         /// 查找排序列表
         /// </summary>
         /// <param name="moduleId">模块ID</param>

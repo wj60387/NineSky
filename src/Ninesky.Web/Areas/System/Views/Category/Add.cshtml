@@ -65,10 +65,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="General.Module" class="col-md-2 control-label"></label>
+                    <label asp-for="General.ModuleId" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <select asp-for="General.Module" asp-items="@ViewData["Modules"] as List<SelectListItem>" class="selectpicker form-control" data-style="btn-dropdown"></select>
-                        <span asp-validation-for="General.Module" class="text-danger"></span>
+                        <select asp-for="General.ModuleId" asp-items="@ViewData["Modules"] as List<SelectListItem>" class="selectpicker form-control" data-style="btn-dropdown"></select>
+                        <span asp-validation-for="General.ModuleId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -105,8 +105,7 @@
         var setting = {
             async: {
                 enable: true,
-                url: "@Url.Action("ParentTree", "Category")",
-                autoParam: ["id", "name","pid"]
+                url: "@Url.Action("ParentTree", "Category")"
             },
             callback: {
                 onClick: function(event, treeId, treeNode) {

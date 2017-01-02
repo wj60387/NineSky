@@ -31,18 +31,73 @@ namespace Ninesky.Web.Areas.System.Controllers
             _categoryService = categoryService;
         }
 
-        public IActionResult Add([FromServices]InterfaceModuleService moduleService)
+        public IActionResult Add([FromServices]InterfaceModuleService moduleService, CategoryType? categoryType)
         {
-            var modules = moduleService.FindList().Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
-            modules.Insert(0, new SelectListItem() { Text = "无", Value = "", Selected = true });
-            ViewData["Modules"] = modules;
-            return View(new Category() { Type = CategoryType.General, ParentId=0, Order=0, Target= LinkTarget._self, General= new CategoryGeneral() { View="Index"} });
+            switch(categoryType)
+            {
+                case CategoryType.Page:
+                    return View("Page");
+                case CategoryType.Link:
+                    return View("Link");
+                default:
+                    var modules = moduleService.FindList(true).Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
+                    modules.Insert(0, new SelectListItem() { Text = "无", Value = "", Selected = true });
+                    ViewData["Modules"] = modules;
+                    return View(new Category() { Type = CategoryType.General, ParentId = 0, Order = 0, Target = LinkTarget._self, General = new CategoryGeneral() { View = "Index", ContentView = "Index" } });
+            }
         }
 
         [HttpPost]
         public IActionResult Add([FromServices]InterfaceModuleService moduleService,Category category)
         {
-            var modules = moduleService.FindList().Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
+            if(ModelState.IsValid)
+            {
+                //检查父栏目
+                if (category.ParentId > 0)
+                {
+                    var parentCategory = _categoryService.Find(category.ParentId);
+                    if (parentCategory == null) ModelState.AddModelError("ParentId", "父栏目不存在");
+                    else if(parentCategory.Type != CategoryType.General) ModelState.AddModelError("ParentId", "父栏目不能添加子栏目");
+                }
+                //检查栏目类型
+                switch (category.Type)
+                {
+                    case CategoryType.General:
+                        if (category.General == null) ModelState.AddModelError("General.Module", "请选择内容模型");
+                        else
+                        {
+                            if (category.Page != null) category.Page = null;
+                            if (category.Link != null) category.Link = null;
+                        }
+                        break;
+                    case CategoryType.Page:
+                        //检查
+                        if (category.Page == null) ModelState.AddModelError("General.Module", "请选择内容模型");
+                        else
+                        {
+                            if (category.General != null) category.General = null;
+                            if (category.Link != null) category.Link = null;
+                        }
+                        break;
+                    case CategoryType.Link:
+                        //检查
+                        if (category.Link == null) ModelState.AddModelError("General.Module", "请选择内容模型");
+                        else
+                        {
+                            if (category.General != null) category.General = null;
+                            if (category.General != null) category.General = null;
+                        }
+                        break;
+                }
+                
+                //保存到数据库
+                if(ModelState.IsValid)
+                {
+                    if (_categoryService.Add(category) > 0) return View("AddSucceed", category);
+                    else ModelState.AddModelError("General.Module", "请选择内容模型");
+                }
+            }
+            var modules = moduleService.FindList(true).Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
             modules.Insert(0, new SelectListItem() { Text = "无", Value = "", Selected = true });
             ViewData["Modules"] = modules;
             return View(category);
@@ -63,7 +118,7 @@ namespace Ninesky.Web.Areas.System.Controllers
         /// <returns></returns>
         public IActionResult ParentTree()
         {
-            return Json(_categoryService.FindTree(CategoryType.General).Select(c => new zTreeNode { id = c.CategoryId, name = c.Name, pId = c.CategoryId }));
+            return Json(_categoryService.FindTree(CategoryType.General).Select(c => new zTreeNode { id = c.CategoryId, name = c.Name, pId = c.CategoryId, iconOpen="fa-open", iconClose="fa-close",iconSkin="fa fa-folder" }));
         }
 
         /// <summary>
@@ -80,6 +135,18 @@ namespace Ninesky.Web.Areas.System.Controllers
                 foreach(var category in categories)
                 {
                     var node = new zTreeNode() { id = category.CategoryId, pId= category.ParentId, name = category.Name, url = Url.Action("Details", "Category", new { id = category.CategoryId }) };
+                    switch(category.Type)
+                    {
+                        case CategoryType.General:
+                            node.iconSkin = "fa fa-folder";
+                            break;
+                        case CategoryType.Page:
+                            node.iconSkin = "fa fa-file";
+                            break;
+                        case CategoryType.Link:
+                            node.iconSkin = "fa fa-link";
+                            break;
+                    }
                     nodes.Add(node);
                 }
             }

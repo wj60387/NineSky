@@ -27,19 +27,10 @@ namespace Ninesky.Models
         public int CategoryId { get; set; }
 
         /// <summary>
-        /// 栏目视图
-        /// </summary>
-        [Required]
-        [StringLength(200)]
-        [Display(Name = "栏目视图")]
-        public string View { get; set; }
-
-        /// <summary>
         /// 模块id[大于0时有效]
         /// </summary>
-        [Required]
         [Display(Name = "内容模块")]
-        public int ModuleId { get; set; }
+        public int? ModuleId { get; set; }
 
         /// <summary>
         /// 内容视图
@@ -58,10 +49,5 @@ namespace Ninesky.Models
         /// 栏目
         /// </summary>
         public virtual Category Category { get; set; }
-
-        public CategoryGeneral()
-        {
-            View = "Index";
-        }
     }
 }

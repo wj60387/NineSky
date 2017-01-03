@@ -39,6 +39,10 @@ namespace Ninesky.Web.Migrations
 
                     b.Property<int>("Type");
 
+                    b.Property<string>("View")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
@@ -57,10 +61,6 @@ namespace Ninesky.Web.Migrations
                         .HasMaxLength(200);
 
                     b.Property<int>("ModuleId");
-
-                    b.Property<string>("View")
-                        .IsRequired()
-                        .HasMaxLength(200);
 
                     b.HasKey("GeneralId");
 
@@ -99,10 +99,6 @@ namespace Ninesky.Web.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(10000);
-
-                    b.Property<string>("View")
-                        .IsRequired()
-                        .HasMaxLength(200);
 
                     b.HasKey("PageId");
 

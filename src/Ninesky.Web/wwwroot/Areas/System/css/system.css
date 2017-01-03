@@ -37,6 +37,10 @@ textarea,
     display: none
   }
 }
+.tab-pane
+{
+    padding-top:20px;
+}
 .btn-dropdown {
   color: #555;
   background-color: #fff;

@@ -14,75 +14,114 @@
         <form asp-action="Add">
             <div class="form-horizontal">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Type" />
-                <div class="form-group">
-                    <label asp-for="ParentId" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <div class="input-group"  style="width:280px;">
-                            <input id="ParentId-text" type="text" class="form-control" readonly value="无" />
-                            <ul id="ParentId-dropdown" class="dropdown-menu dropdown-menu-left ztree"></ul>
-                            <div class="input-group-btn">
-                                <button id="ParentId-btn" type="button" class="btn btn-default"><span class="caret"></span></button>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#base" role="tab" data-toggle="tab">基本信息</a></li>
+                    <li role="presentation"><a href="#general" role="tab" data-toggle="tab">常规栏目</a></li>
+                    <li role="presentation"><a href="#page" role="tab" data-toggle="tab">单页栏目</a></li>
+                    <li role="presentation"><a href="#link" role="tab" data-toggle="tab">链接栏目</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="base">
+                        <div class="form-group">
+                            <label asp-for="ParentId" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <div class="input-group" style="width:280px;">
+                                    <input id="ParentId-text" type="text" class="form-control" readonly value="无" />
+                                    <ul id="ParentId-dropdown" class="dropdown-menu dropdown-menu-left ztree"></ul>
+                                    <div class="input-group-btn">
+                                        <button id="ParentId-btn" type="button" class="btn btn-default"><span class="caret"></span></button>
+                                    </div>
+                                    <input asp-for="ParentId" class="form-control" style="width:0; visibility:hidden; position:absolute;padding:0" />
+                                </div>
+                                <span asp-validation-for="ParentId" class="text-danger"></span>
                             </div>
-                            <input asp-for="ParentId" class="form-control" style="width:0; visibility:hidden; position:absolute;padding:0" />
                         </div>
-                        <span asp-validation-for="ParentId" class="text-danger"></span>
+                        <div class="form-group">
+                            <label asp-for="Type" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <select asp-for="Type" asp-items="Html.GetEnumSelectList<Ninesky.Models.CategoryType>()" class="selectpicker form-control" data-style="btn-dropdown"></select>
+                                <span asp-validation-for="Type" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Name" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="View" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="View" class="form-control" />
+                                <span asp-validation-for="View" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Order" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="Order" class="form-control" />
+                                <span asp-validation-for="Order" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Target" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <select asp-for="Target" asp-items="Html.GetEnumSelectList<Ninesky.Models.LinkTarget>()" class="selectpicker form-control" data-style="btn-dropdown"></select>
+                                <span asp-validation-for="Target" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <textarea asp-for="Description" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Name" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                    <div role="tabpanel" class="tab-pane" id="general">
+                        <div class="form-group">
+                            <label asp-for="General.ModuleId" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <select asp-for="General.ModuleId" asp-items="@ViewData["Modules"] as List<SelectListItem>" class="selectpicker form-control" data-style="btn-dropdown"></select>
+                                <span asp-validation-for="General.ModuleId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="General.ContentView" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="General.ContentView" class="form-control" />
+                                <span asp-validation-for="General.ContentView" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="General.ContentOrder" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <select asp-for="General.ContentOrder" class="form-control"></select>
+                                <span asp-validation-for="General.ContentOrder" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="General.View" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="General.View" class="form-control" />
-                        <span asp-validation-for="General.View" class="text-danger"></span>
+                    <div role="tabpanel" class="tab-pane" id="page">
+                        <div class="form-group">
+                            <label asp-for="Page.Content" class="control-label"></label>
+                            
+                                <textarea asp-for="Page.Content" ></textarea>
+                                <span asp-validation-for="Page.Content" class="text-danger"></span>
+                            
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Order" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Order" class="form-control" />
-                        <span asp-validation-for="Order" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Target" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="Target" asp-items="Html.GetEnumSelectList<Ninesky.Models.LinkTarget>()" class="selectpicker form-control" data-style="btn-dropdown"></select>
-                        <span asp-validation-for="Target" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <textarea asp-for="Description" class="form-control" ></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="General.ModuleId" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="General.ModuleId" asp-items="@ViewData["Modules"] as List<SelectListItem>" class="selectpicker form-control" data-style="btn-dropdown"></select>
-                        <span asp-validation-for="General.ModuleId" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="General.ContentView" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="General.ContentView" class="form-control" />
-                        <span asp-validation-for="General.ContentView" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="General.ContentOrder" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="General.ContentOrder" class="form-control" ></select>
-                        <span asp-validation-for="General.ContentOrder" class="text-danger"></span>
+                    <div role="tabpanel" class="tab-pane" id="link">
+                        <div class="form-group">
+                            <label asp-for="Link.Url" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="Link.Url" class="form-control" />
+                                <span asp-validation-for="Link.Url" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -100,6 +139,8 @@
 }
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/ueditor/ueditor.config.js"></script>
+    <script src="~/lib/ueditor/ueditor.all.min.js"></script>
     <script type="text/javascript">
         var dropdownCategoryTree;
         var setting = {
@@ -108,40 +149,32 @@
                 url: "@Url.Action("ParentTree", "Category")"
             },
             callback: {
-                onClick: function(event, treeId, treeNode) {
+                onClick: function (event, treeId, treeNode) {
                     $("#ParentId").val(treeNode.id);
                     $("#ParentId-text").val(treeNode.name);
                     $("#ParentId-dropdown").hide();
                 }
             }
         };
-        function toggleContent()
-        {
-            if ($("#General_Module").selectpicker('val') == "") {
-
-                $("#General_ContentView").parent().parent().hide();
-                $("#General_ContentOrder").parent().parent().hide();
+        function toggleContent() {
+            if ($("#General_ModuleId").selectpicker('val') == "") {
                 $("#General_ContentOrder").empty();
             }
             else {
-                $("#General_ContentView").parent().parent().show();
-                $("#General_ContentOrder").parent().parent().show();
-                $.post("@Url.Action("OrderList","Module")", { id: $('#General_Module').val() }, function (data) {
-                    if(data != undefined)
-                    {
+                $.post("@Url.Action("OrderList","Module")", { id: $('#General_ModuleId').val() }, function (data) {
+                    if (data != undefined) {
                         $.each(data, function (ndex, element) {
                             $("#General_ContentOrder").append("<option value='" + element.order + "'>" + element.name + "</option>");
-                         })
+                        })
                     }
-                 }, 'json');
+                }, 'json');
 
             }
         }
         // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
         $(document).ready(function () {
-            toggleContent();
             dropdownCategoryTree = $.fn.zTree.init($("#ParentId-dropdown"), setting);
-            dropdownCategoryTree.addNodes(null, { id: 0, name: "无"});
+            dropdownCategoryTree.addNodes(null, { id: 0, name: "无" });
             $("#ParentId-text").click(function () {
                 $("#ParentId-dropdown").show();
             });
@@ -149,10 +182,11 @@
                 $("#ParentId-dropdown").show();
             });
             toggleContent();
-            $('#General_Module').on('changed.bs.select', function (e) {
+            $('#General_ModuleId').on('changed.bs.select', function (e) {
                 toggleContent();
             });
-            
+            //富文本编辑器
+            var ue = UE.getEditor('Page_Content');
         });
     </script>
 }

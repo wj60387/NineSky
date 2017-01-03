@@ -27,6 +27,14 @@ namespace Ninesky.Models
         public string Name { get; set; }
 
         /// <summary>
+        /// 栏目视图
+        /// </summary>
+        [Required]
+        [StringLength(200)]
+        [Display(Name = "栏目视图")]
+        public string View { get; set; }
+
+        /// <summary>
         /// 栏目类型
         /// </summary>
         [Required]

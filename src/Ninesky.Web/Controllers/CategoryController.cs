@@ -48,10 +48,10 @@ namespace Ninesky.Web.Controllers
             {
                 case CategoryType.General:
                     if (category.General == null) return View("Error",new Models.Error { Title="错误消息", Name="栏目数据不完整",Description="找不到栏目【"+category.Name+"】的详细数据。" });
-                    return View(category.General.View, category);
+                    return View(category.View, category);
                 case CategoryType.Page:
                     if (category.Page == null) return View("Error", new Models.Error { Title = "错误消息", Name = "栏目数据不完整", Description = "找不到栏目【" + category.Name + "】的详细数据。" });
-                    return View(category.Page.View, category);
+                    return View(category.View, category);
                 case CategoryType.Link:
                     if (category.Link == null) return View("Error", new Models.Error { Title = "错误消息", Name = "栏目数据不完整", Description = "找不到栏目【" + category.Name + "】的详细数据。" });
                     return Redirect(category.Link.Url);

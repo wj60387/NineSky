@@ -1,5 +1,5 @@
 /*
- * JQuery zTree core v3.5.26
+ * JQuery zTree core v3.5.27
  * http://treejs.cn/
  *
  * Copyright (c) 2010 Hunter.z
@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2016-11-03
+ * Date: 2016-12-27
  */
 (function($){
 	var settings = {}, roots = {}, caches = {},
@@ -905,7 +905,7 @@
 				tmpPChild = tmpPNode[childKey],
 				isFirstNode, isLastNode;
 
-			if (!tmpPChild || index >= tmpPChild.length) {
+            if (!tmpPChild || index >= tmpPChild.length - nodes.length) {
 				index = -1;
 			}
 
@@ -1264,15 +1264,14 @@
 		makeNodeIcoClass: function(setting, node) {
 			var icoCss = ["ico"];
 			if (!node.isAjaxing) {
-			    icoCss[0] = (node.iconSkin ? node.iconSkin : "");
+				icoCss[0] = (node.iconSkin ? node.iconSkin + "_" : "") + icoCss[0];
 				if (node.isParent) {
 					icoCss.push(node.open ? consts.folder.OPEN : consts.folder.CLOSE);
 				} else {
-					//icoCss.push(consts.folder.DOCU);
+					icoCss.push(consts.folder.DOCU);
 				}
 			}
-		    //return consts.className.BUTTON + " " + icoCss.join('_');
-			return icoCss.join('_');
+			return consts.className.BUTTON + " " + icoCss.join('_');
 		},
 		makeNodeIcoStyle: function(setting, node) {
 			var icoStyle = [];

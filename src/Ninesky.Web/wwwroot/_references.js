@@ -1,5 +1,4 @@
 ﻿/// <autosync enabled="true" />
-/// <reference path="areas/System/js/jquery.ztree.core.js" />
 /// <reference path="areas/System/js/system.js" />
 /// <reference path="js/site.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />

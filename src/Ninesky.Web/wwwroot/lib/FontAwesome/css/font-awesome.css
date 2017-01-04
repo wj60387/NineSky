@@ -538,10 +538,10 @@
 .fa-shopping-cart:before {
   content: "\f07a";
 }
-.fa-folder:before {
+.fa-folder:before,.fa-folder_ico_docu:before,.fa-folder_ico_close:before {
   content: "\f07b";
 }
-.fa-folder-open:before {
+.fa-folder-open:before,.fa-folder_ico_open:before {
   content: "\f07c";
 }
 .fa-arrows-v:before {
@@ -703,7 +703,7 @@
   content: "\f0c0";
 }
 .fa-chain:before,
-.fa-link:before {
+.fa-link:before,fa-link_ico_docu:before {
   content: "\f0c1";
 }
 .fa-cloud:before {
@@ -1164,7 +1164,7 @@
 .fa-btc:before {
   content: "\f15a";
 }
-.fa-file:before {
+.fa-file:before,.fa-file_ico_docu:before {
   content: "\f15b";
 }
 .fa-file-text:before {
@@ -2334,8 +2334,4 @@
   margin: 0;
   overflow: visible;
   clip: auto;
-}
-/*ztreeÊ½Ñù*/
-.fa-folder_ico_docu:before {
-  content: "\f07b";
 }

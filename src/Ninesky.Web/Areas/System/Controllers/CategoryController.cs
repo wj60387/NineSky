@@ -129,7 +129,7 @@ namespace Ninesky.Web.Areas.System.Controllers
         /// <returns></returns>
         public IActionResult ParentTree()
         {
-            return Json(_categoryService.FindTree(CategoryType.General).Select(c => new zTreeNode { id = c.CategoryId, name = c.Name, pId = c.CategoryId, iconOpen="fa-open", iconClose="fa-close",iconSkin="fa fa-folder" }));
+            return Json(_categoryService.FindTree(CategoryType.General).Select(c => new zTreeNode { id = c.CategoryId, name = c.Name, pId = c.ParentId, iconOpen="fa-open", iconClose="fa-close",iconSkin="fa fa-folder" }));
         }
 
         /// <summary>

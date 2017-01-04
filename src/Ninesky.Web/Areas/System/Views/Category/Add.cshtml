@@ -13,7 +13,7 @@
     <div class="panel-body">
         <form asp-action="Add">
             <div class="form-horizontal">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#base" role="tab" data-toggle="tab">基本信息</a></li>
                     <li role="presentation"><a href="#general" role="tab" data-toggle="tab">常规栏目</a></li>
@@ -144,6 +144,14 @@
     <script type="text/javascript">
         var dropdownCategoryTree;
         var setting = {
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "pId",
+                    rootPId: 0
+                }
+            },
             async: {
                 enable: true,
                 url: "@Url.Action("ParentTree", "Category")"

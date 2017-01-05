@@ -703,7 +703,8 @@
   content: "\f0c0";
 }
 .fa-chain:before,
-.fa-link:before,fa-link_ico_docu:before {
+.fa-link:before,
+.fa-link_ico_docu:before {
   content: "\f0c1";
 }
 .fa-cloud:before {

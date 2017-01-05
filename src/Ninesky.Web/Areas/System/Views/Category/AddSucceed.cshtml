@@ -13,8 +13,8 @@
     <h4><i class="fa fa-check"></i> 添加成功 </h4>
     <p>您已成功添加栏目【@Model.Name】</p>
     <p>
-        <button type="button" class="btn btn-danger">修改栏目</button>
-        <button type="button" class="btn btn-default">添加栏目</button>
+        <a href="@Url.Action("Add")" class="btn btn-default">添加栏目</a>
+        <a href="@Url.Action("Details","Category",new {id=Model.CategoryId })" class="btn btn-default">修改栏目</a>
     </p>
 </div>
 @section aside{

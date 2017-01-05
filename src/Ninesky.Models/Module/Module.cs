@@ -23,7 +23,7 @@ namespace Ninesky.Models
         /// <summary>
         /// 模块名称
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "必填")]
         [StringLength(50)]
         [Display(Name = "模块名称")]
         public string Name { get; set; }
@@ -46,7 +46,7 @@ namespace Ninesky.Models
         /// <summary>
         /// 是否启用
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "启用")]
         public bool Enabled { get; set; }
 

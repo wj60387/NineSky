@@ -35,6 +35,16 @@ namespace Ninesky.Base
         }
 
         /// <summary>
+        /// 查找子栏目
+        /// </summary>
+        /// <param name="id">栏目ID</param>
+        /// <returns></returns>
+        public List<Category> FindChildren(int id)
+        {
+            return FindList(0, c => c.ParentId == id, c => c.Order, true).ToList();
+        }
+
+        /// <summary>
         /// 查找树形菜单
         /// </summary>
         /// <param name="categoryType">栏目类型，可以为空</param>

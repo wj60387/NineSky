@@ -24,13 +24,20 @@ namespace Ninesky.InterfaceBase
         /// </summary>
         /// <param name="categoryType">栏目类型，可以为空</param>
         /// <returns></returns>
-        List<Category> FindTree(CategoryType? categoryType);
+        Task<IQueryable<Category>> FindTreeAsync(CategoryType? categoryType);
 
         /// <summary>
         /// 查找子栏目
         /// </summary>
         /// <param name="id">栏目ID</param>
         /// <returns></returns>
-        List<Category> FindChildren(int id);
+        IQueryable<Category> FindChildren(int id);
+
+        /// <summary>
+        /// 查找子栏目
+        /// </summary>
+        /// <param name="id">栏目ID</param>
+        /// <returns></returns>
+        Task<IQueryable<Category>> FindChildrenAsync(int id);
     }
 }

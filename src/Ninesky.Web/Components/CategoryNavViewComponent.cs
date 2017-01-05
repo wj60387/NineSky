@@ -25,7 +25,7 @@ namespace Ninesky.Web.Components
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-           var categories = _categoryService.FindChildren(0);
+            var categories = await _categoryService.FindChildrenAsync(0);
            return View(categories);
         }
     }

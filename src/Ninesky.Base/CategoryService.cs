@@ -39,9 +39,19 @@ namespace Ninesky.Base
         /// </summary>
         /// <param name="id">栏目ID</param>
         /// <returns></returns>
-        public List<Category> FindChildren(int id)
+        public IQueryable<Category> FindChildren(int id)
         {
-            return FindList(0, c => c.ParentId == id, c => c.Order, true).ToList();
+            return FindList(0, c => c.ParentId == id, c => c.Order, true);
+        }
+
+        /// <summary>
+        /// 查找子栏目
+        /// </summary>
+        /// <param name="id">栏目ID</param>
+        /// <returns></returns>
+        public async Task<IQueryable<Category>> FindChildrenAsync(int id)
+        {
+            return await FindListAsync(0, c => c.ParentId == id, c => c.Order, true);
         }
 
         /// <summary>
@@ -49,9 +59,9 @@ namespace Ninesky.Base
         /// </summary>
         /// <param name="categoryType">栏目类型，可以为空</param>
         /// <returns></returns>
-        public List<Category> FindTree(CategoryType? categoryType)
+        public async Task<IQueryable<Category>> FindTreeAsync(CategoryType? categoryType)
         {
-            var categories = _dbContext.Set<Category>().AsQueryable();
+            var categories = await FindListAsync();
             //根据栏目类型分类处理
             switch (categoryType)
             {
@@ -86,7 +96,7 @@ namespace Ninesky.Base
                     categories = categories.Where(c => idArray.Contains(c.CategoryId));
                     break;
             }
-            return categories.OrderBy(c => c.ParentPath).ThenBy(C => C.Order).ToList();
+            return categories.OrderBy(c => c.ParentPath).ThenBy(C => C.Order);
         }
     }
 }

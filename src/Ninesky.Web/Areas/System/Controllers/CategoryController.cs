@@ -127,19 +127,20 @@ namespace Ninesky.Web.Areas.System.Controllers
         /// ¸¸À¸Ä¿Ê÷
         /// </summary>
         /// <returns></returns>
-        public IActionResult ParentTree()
+        public async Task<IActionResult> ParentTree()
         {
-            return Json(_categoryService.FindTree(CategoryType.General).Select(c => new zTreeNode { id = c.CategoryId, name = c.Name, pId = c.ParentId, iconSkin="fa fa-folder" }));
+            var categories = await _categoryService.FindTreeAsync(CategoryType.General);
+            return Json(categories.Select(c => new zTreeNode { id = c.CategoryId, name = c.Name, pId = c.ParentId, iconSkin="fa fa-folder" }));
         }
 
         /// <summary>
         /// À¸Ä¿Ê÷
         /// </summary>
         /// <returns></returns>
-        public IActionResult Tree()
+        public async Task<IActionResult> Tree()
         {
             List<zTreeNode> nodes;
-            var categories = _categoryService.FindTree(null);
+            var categories = await _categoryService.FindTreeAsync(null);
             if (categories != null)
             {
                 nodes = new List<zTreeNode>(categories.Count());

@@ -7,15 +7,14 @@
  版本：v1.0.0.0
  =====================================*/
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Ninesky.InterfaceBase;
 using Ninesky.Models;
 using Ninesky.Web.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ninesky.Web.Areas.System.Controllers
 {
@@ -34,7 +33,7 @@ namespace Ninesky.Web.Areas.System.Controllers
         public async Task<IActionResult> Add([FromServices]InterfaceModuleService moduleService, CategoryType? categoryType)
         {
 
-            var modules = await moduleService.FindListAsync();
+            var modules = await moduleService.FindListAsync(true);
             var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
             modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
             ViewData["Modules"] = modeleArry;
@@ -109,7 +108,7 @@ namespace Ninesky.Web.Areas.System.Controllers
                     else ModelState.AddModelError("", "保存数据失败");
                 }
             }
-            var modules = await moduleService.FindListAsync();
+            var modules = await moduleService.FindListAsync(true);
             var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
             modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
             ViewData["Modules"] = modeleArry;

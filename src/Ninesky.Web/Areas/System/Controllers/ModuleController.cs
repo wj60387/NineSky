@@ -31,16 +31,16 @@ namespace Ninesky.Web.Areas.System.Controllers
         /// </summary>
         /// <param name="id">模块ID</param>
         /// <returns></returns>
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            return View(_moduleService.Find(id));
+            return View(await _moduleService.FindAsync(id));
         }
 
         [HttpPost]
-        public IActionResult Enable (int id, bool enabled)
+        public async Task<IActionResult> Enable (int id, bool enabled)
         {
             JsonResponse jsonResponse = new JsonResponse();
-            var module = _moduleService.Find(id);
+            var module = await _moduleService.FindAsync(id);
             if(module == null)
             {
                 jsonResponse.succeed = false;
@@ -49,7 +49,7 @@ namespace Ninesky.Web.Areas.System.Controllers
             else
             {
                 module.Enabled = enabled;
-                if(_moduleService.Update(module))
+                if(await _moduleService.UpdateAsync(module))
                 {
                     jsonResponse.succeed = true;
                     jsonResponse.message = "模块已" + (enabled ? "启用" : "禁用");
@@ -71,9 +71,9 @@ namespace Ninesky.Web.Areas.System.Controllers
         /// 模块列表
         /// </summary>
         /// <returns></returns>
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            return Json(_moduleService.FindList().ToList());
+            return Json((await _moduleService.FindListAsync()).ToList());
         }
 
         /// <summary>
@@ -81,9 +81,9 @@ namespace Ninesky.Web.Areas.System.Controllers
         /// </summary>
         /// <param name="id">模块Id</param>
         /// <returns></returns>
-        public IActionResult OrderList(int id)
+        public async Task<IActionResult> OrderList(int id)
         {
-            return Json(_moduleService.FindOrderList(id).ToList());
+            return Json((await _moduleService.FindOrderListAsync(id)).ToList());
         }
 
     }

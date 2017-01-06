@@ -21,7 +21,7 @@ namespace Ninesky.Models
         /// <summary>
         /// 栏目名称
         /// </summary>
-        [Required(ErrorMessage ="必填")]
+        [Required(ErrorMessage ="{0}必填")]
         [StringLength(50, ErrorMessage = "{0}长度{1}个字符。")]
         [Display(Name = "栏目名称")]
         public string Name { get; set; }
@@ -29,7 +29,7 @@ namespace Ninesky.Models
         /// <summary>
         /// 栏目视图
         /// </summary>
-        [Required(ErrorMessage = "必填")]
+        [Required(ErrorMessage = "{0}必填")]
         [StringLength(200,ErrorMessage ="{0}长度{1}个字符。")]
         [Display(Name = "栏目视图")]
         public string View { get; set; }
@@ -37,7 +37,7 @@ namespace Ninesky.Models
         /// <summary>
         /// 栏目类型
         /// </summary>
-        [Required(ErrorMessage = "必填")]
+        [Required(ErrorMessage = "{0}必填")]
         [Display(Name= "栏目类型")]
         public CategoryType Type { get; set; }
 
@@ -47,7 +47,7 @@ namespace Ninesky.Models
         /// <remarks>
         /// 0-表示本栏目是根栏目，无上级栏目
         /// </remarks>
-        [Required(ErrorMessage = "必填")]
+        [Required(ErrorMessage = "{0}必填")]
         [Display(Name = "上级栏目")]
         public int ParentId { get; set; }
 
@@ -62,14 +62,14 @@ namespace Ninesky.Models
         /// <remarks>
         /// 数字越小越靠前
         /// </remarks>
-        [Required(ErrorMessage = "必填")]
+        [Required(ErrorMessage = "{0}必填")]
         [Display(Name = "栏目排序")]
         public int Order { get; set; }
 
         /// <summary>
         /// 打开目标
         /// </summary>
-        [Required(ErrorMessage = "必填")]
+        [Required(ErrorMessage = "{0}必填")]
         [Display(Name = "打开目标")]
         public LinkTarget Target { get; set; }
 

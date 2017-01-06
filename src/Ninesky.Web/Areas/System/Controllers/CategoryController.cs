@@ -31,24 +31,25 @@ namespace Ninesky.Web.Areas.System.Controllers
             _categoryService = categoryService;
         }
 
-        public IActionResult Add([FromServices]InterfaceModuleService moduleService, CategoryType? categoryType)
+        public async Task<IActionResult> Add([FromServices]InterfaceModuleService moduleService, CategoryType? categoryType)
         {
 
-            var modules = moduleService.FindList(true).Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
-            modules.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
-            ViewData["Modules"] = modules;
+            var modules = await moduleService.FindListAsync();
+            var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
+            modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
+            ViewData["Modules"] = modeleArry;
             return View(new Category() { Type = CategoryType.General, ParentId = 0, View="Index", Order = 0, Target = LinkTarget._self, General = new CategoryGeneral() { ContentView = "Index" } });
         }
 
         [HttpPost]
-        public IActionResult Add([FromServices]InterfaceModuleService moduleService,Category category)
+        public async Task<IActionResult>  Add([FromServices]InterfaceModuleService moduleService,Category category)
         {
             if(ModelState.IsValid)
             {
                 //检查父栏目
                 if (category.ParentId > 0)
                 {
-                    var parentCategory = _categoryService.Find(category.ParentId);
+                    var parentCategory = await _categoryService.FindAsync(category.ParentId);
                     if (parentCategory == null) ModelState.AddModelError("ParentId", "父栏目不存在");
                     else if (parentCategory.Type != CategoryType.General) ModelState.AddModelError("ParentId", "父栏目不能添加子栏目");
                     else category.ParentPath = parentCategory.ParentPath + "," + parentCategory.CategoryId;
@@ -104,13 +105,14 @@ namespace Ninesky.Web.Areas.System.Controllers
                 //保存到数据库
                 if(ModelState.IsValid)
                 {
-                    if (_categoryService.Add(category) > 0) return View("AddSucceed", category);
+                    if (await _categoryService.AddAsync(category) > 0) return View("AddSucceed", category);
                     else ModelState.AddModelError("", "保存数据失败");
                 }
             }
-            var modules = moduleService.FindList(true).Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
-            modules.Insert(0, new SelectListItem() { Text = "无", Value = "0"});
-            ViewData["Modules"] = modules;
+            var modules = await moduleService.FindListAsync();
+            var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
+            modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
+            ViewData["Modules"] = modeleArry;
             return View(category);
         }
 

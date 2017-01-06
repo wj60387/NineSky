@@ -32,19 +32,19 @@ namespace Ninesky.Base
         /// </summary>
         /// <param name="enable">启用</param>
         /// <returns></returns>
-        public IQueryable<Module> FindList(bool? enable)
+        public async Task<IQueryable<Module>> FindListAsync(bool? enable)
         {
-            if (enable == null) return FindList();
-            else return FindList(0, m => m.Enabled == enable);
+            if (enable == null) return await FindListAsync();
+            else return await FindListAsync(m => m.Enabled == enable);
         }
         /// <summary>
         /// 查找排序列表
         /// </summary>
         /// <param name="moduleId">模块ID</param>
         /// <returns></returns>
-        public IQueryable<ModuleOrder> FindOrderList(int moduleId)
+        public async Task<IQueryable<ModuleOrder>> FindOrderListAsync(int moduleId)
         {
-            return _dbContext.Set<ModuleOrder>().Where(mo => mo.ModuleId == moduleId);
+            return await Task.FromResult(_dbContext.Set<ModuleOrder>().Where(mo => mo.ModuleId == moduleId));
         }
     }
 }

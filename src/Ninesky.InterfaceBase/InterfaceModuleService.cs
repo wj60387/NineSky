@@ -21,12 +21,12 @@ namespace Ninesky.InterfaceBase
         /// </summary>
         /// <param name="enable">启用</param>
         /// <returns></returns>
-        IQueryable<Module> FindList(bool? enable);
+        Task<IQueryable<Module>> FindListAsync(bool? enable);
         /// <summary>
         /// 查找排序列表
         /// </summary>
         /// <param name="moduleId">模块ID</param>
         /// <returns></returns>
-        IQueryable<ModuleOrder> FindOrderList(int moduleId);
+        Task<IQueryable<ModuleOrder>> FindOrderListAsync(int moduleId);
     }
 }

@@ -34,6 +34,10 @@ namespace Ninesky.Base
             return _dbContext.Set<Category>().Include("General").Include("Page").Include("Link").SingleOrDefault(c => c.CategoryId == Id);
         }
 
+        public override async Task<Category> FindAsync(int Id)
+        {
+            return await _dbContext.Set<Category>().Include("General").Include("Page").Include("Link").FirstOrDefaultAsync(c => c.CategoryId == Id);
+        }
         /// <summary>
         /// 查找子栏目
         /// </summary>

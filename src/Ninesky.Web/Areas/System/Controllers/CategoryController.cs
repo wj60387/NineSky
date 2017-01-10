@@ -160,10 +160,13 @@ namespace Ninesky.Web.Areas.System.Controllers
                             var parentCategory = await _categoryService.FindAsync(category.ParentId);
                             if (parentCategory == null) ModelState.AddModelError("ParentId", "父栏目不存在");
                             else if (parentCategory.Type != CategoryType.General) ModelState.AddModelError("ParentId", "父栏目不能添加子栏目");
+                            else if(parentCategory.ParentPath.IndexOf(originalCategory.ParentPath,0)== 0) ModelState.AddModelError("ParentId", "父栏目不能是其本身或子栏目");
                             else category.ParentPath = parentCategory.ParentPath + "," + parentCategory.CategoryId;
                         }
                     }
                     //检查栏目类型
+                    if (category.Type != originalCategory.Type)
+                    { }
                     switch (category.Type)
                     {
                         case CategoryType.General:

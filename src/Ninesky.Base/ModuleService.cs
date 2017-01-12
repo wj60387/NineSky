@@ -24,6 +24,7 @@ namespace Ninesky.Base
             return _dbContext.Set<Module>().Include(m => m.ModuleOrders).SingleOrDefault(m => m.ModuleId == Id);
         }
 
+
         /// <summary>
         /// 查找
         /// </summary>

@@ -144,6 +144,7 @@ namespace Ninesky.Web.Areas.System.Controllers
         [HttpPost]
         public async Task<IActionResult> Details([FromServices]InterfaceModuleService moduleService, Category category)
         {
+            //模型验证是否通过
             if (ModelState.IsValid)
             {
                 //原栏目
@@ -151,7 +152,7 @@ namespace Ninesky.Web.Areas.System.Controllers
                 if(originalCategory == null) ModelState.AddModelError("", "栏目不存在，请刷新后重试");
                 else
                 {
-                    //检查父栏目
+                    //父栏目是否更改
                     if (category.ParentId != originalCategory.ParentId)
                     {
                         if (category.ParentId == 0) category.ParentPath = "0";
@@ -164,9 +165,27 @@ namespace Ninesky.Web.Areas.System.Controllers
                             else category.ParentPath = parentCategory.ParentPath + "," + parentCategory.CategoryId;
                         }
                     }
-                    //检查栏目类型
+                    //栏目类型是否更改
                     if (category.Type != originalCategory.Type)
-                    { }
+                    {
+                        //栏目类型是否常规栏目
+                        if(originalCategory.Type == CategoryType.General)
+                        {
+                            if(originalCategory.General.ModuleId >0)
+                            {
+                                var controller = (await moduleService.FindAsync((int)originalCategory.General.ModuleId)).Controller;
+                                switch(controller)
+                                {
+                                    case "Article":
+                                        //此栏目是否有内容
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    //跟新栏目模型
+                    originalCategory.
+                    originalCategory.Description = category.Description;
                     switch (category.Type)
                     {
                         case CategoryType.General:
@@ -213,7 +232,7 @@ namespace Ninesky.Web.Areas.System.Controllers
                             break;
                     }
 
-                    //保存到数据库
+                    //更新数据库
                     if (ModelState.IsValid)
                     {
                         if (await _categoryService.AddAsync(category) > 0) return View("AddSucceed", category);

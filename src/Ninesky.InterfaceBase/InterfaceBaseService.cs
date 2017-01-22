@@ -291,7 +291,7 @@ namespace Ninesky.InterfaceBase
         /// <param name="entity">实体</param>
         /// <param name="isSave">是否立即保存</param>
         /// <returns>是否保存成功[isSave=true时有效]</returns>
-        Task<bool> UpdateAsync(T entity, bool isSave = true);
+        Task<OperationResult> UpdateAsync(T entity, bool isSave = true);
 
         /// <summary>
         /// 更新[批量]

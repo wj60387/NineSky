@@ -434,12 +434,15 @@ namespace Ninesky.Base
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="isSave">是否立即保存</param>
-        /// <returns>是否保存成功[isSave=true时有效]</returns>
-        public async Task<bool> UpdateAsync(T entity, bool isSave = true)
+        /// <returns>[isSave=true时有效]\n
+        /// OperationResult.Succeed操作是否成功。
+        /// </returns>
+        public virtual async Task<OperationResult> UpdateAsync(T entity, bool isSave = true)
         {
+            var oResult = new OperationResult();
             _dbContext.Set<T>().Update(entity);
-            if (isSave) return await _dbContext.SaveChangesAsync() > 0;
-            else return false;
+            if (isSave) oResult.Succeed = await _dbContext.SaveChangesAsync() > 0;
+            return oResult;
         }
 
         /// <summary>

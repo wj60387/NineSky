@@ -148,94 +148,12 @@ namespace Ninesky.Web.Areas.System.Controllers
             if (ModelState.IsValid)
             {
                 //原栏目
-                var originalCategory = await _categoryService.FindAsync(category.CategoryId);
-                if(originalCategory == null) ModelState.AddModelError("", "栏目不存在，请刷新后重试");
-                else
-                {
-                    //父栏目是否更改
-                    if (category.ParentId != originalCategory.ParentId)
-                    {
-                        if (category.ParentId == 0) category.ParentPath = "0";
-                        else
-                        {
-                            var parentCategory = await _categoryService.FindAsync(category.ParentId);
-                            if (parentCategory == null) ModelState.AddModelError("ParentId", "父栏目不存在");
-                            else if (parentCategory.Type != CategoryType.General) ModelState.AddModelError("ParentId", "父栏目不能添加子栏目");
-                            else if(parentCategory.ParentPath.IndexOf(originalCategory.ParentPath,0)== 0) ModelState.AddModelError("ParentId", "父栏目不能是其本身或子栏目");
-                            else category.ParentPath = parentCategory.ParentPath + "," + parentCategory.CategoryId;
-                        }
-                    }
-                    //栏目类型是否更改
-                    if (category.Type != originalCategory.Type)
-                    {
-                        //栏目类型是否常规栏目
-                        if(originalCategory.Type == CategoryType.General)
-                        {
-                            if(originalCategory.General.ModuleId >0)
-                            {
-                                var controller = (await moduleService.FindAsync((int)originalCategory.General.ModuleId)).Controller;
-                                switch(controller)
-                                {
-                                    case "Article":
-                                        //此栏目是否有内容
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                    //跟新栏目模型
-                    originalCategory.
-                    originalCategory.Description = category.Description;
-                    switch (category.Type)
-                    {
-                        case CategoryType.General:
-                            if (category.General == null) ModelState.AddModelError("General.Type", "请填写常规栏目内容");
-                            else
-                            {
-                                if (category.General.ModuleId > 0)
-                                {
-                                    if (string.IsNullOrEmpty(category.General.ContentView)) ModelState.AddModelError("General.ContentView", "请填写栏目视图");
-                                    if (category.General.ContentOrder == null) ModelState.AddModelError("General.ContentOrder", "请选择内容排序方式");
-                                }
-                                else
-                                {
-                                    if (category.Page != null) category.Page = null;
-                                    if (category.Link != null) category.Link = null;
-                                }
-                            }
-                            break;
-                        case CategoryType.Page:
-                            //检查
-                            if (category.Page == null) ModelState.AddModelError("General.Type", "请填写单页栏目内容");
-                            else
-                            {
-                                if (string.IsNullOrEmpty(category.Page.Content)) ModelState.AddModelError("Page.Content", "请输入单页栏目内容");
-                                else
-                                {
-                                    if (category.General != null) category.General = null;
-                                    if (category.Link != null) category.Link = null;
-                                }
-                            }
-                            break;
-                        case CategoryType.Link:
-                            //检查
-                            if (category.Link == null) ModelState.AddModelError("General.Type", "请填写连接栏目内容");
-                            else
-                            {
-                                if (string.IsNullOrEmpty(category.Link.Url)) ModelState.AddModelError("Link.Url", "请选择输入链接地址");
-                                else
-                                {
-                                    if (category.General != null) category.General = null;
-                                    if (category.General != null) category.General = null;
-                                }
-                            }
-                            break;
-                    }
+               
 
                     //更新数据库
                     if (ModelState.IsValid)
                     {
-                        if (await _categoryService.AddAsync(category) > 0) return View("AddSucceed", category);
+                        if (await _categoryService.UpdateAsync(category)) return View("UpdateSucceed", category);
                         else ModelState.AddModelError("", "保存数据失败");
                     }
                 }

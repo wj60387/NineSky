@@ -18,6 +18,13 @@ namespace Ninesky.InterfaceBase
     public interface InterfaceCategoryService:InterfaceBaseService<Category>
     {
         /// <summary>
+        /// 能否做父栏目
+        /// </summary>
+        /// <param name="paretn">父栏</param>
+        /// <param name="category">栏目</param>
+        /// <returns></returns>
+        OperationResult CanParen(Category parent, Category category);
+        /// <summary>
         /// 查找树形菜单
         /// </summary>
         /// <param name="categoryType">栏目类型，可以为空</param>
@@ -37,5 +44,6 @@ namespace Ninesky.InterfaceBase
         /// <param name="id">栏目ID</param>
         /// <returns></returns>
         Task<IQueryable<Category>> FindChildrenAsync(int id);
+        Task<OperationResult> UpdateAsync(InterfaceModuleService moduleService, Category category, bool isSave = true);
     }
 }

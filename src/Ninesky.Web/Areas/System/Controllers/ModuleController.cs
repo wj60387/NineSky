@@ -47,7 +47,8 @@ namespace Ninesky.Web.Areas.System.Controllers
             else
             {
                 module.Enabled = enabled;
-                if(await _moduleService.UpdateAsync(module))
+                var oResult = await _moduleService.UpdateAsync(module);
+                if(oResult.Succeed)
                 {
                     jsonResponse.succeed = true;
                     jsonResponse.message = "模块已" + (enabled ? "启用" : "禁用");

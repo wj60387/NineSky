@@ -43,13 +43,13 @@ namespace Ninesky.Web.Areas.System.Controllers
             var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
             modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
             ViewData["Modules"] = modeleArry;
-            return View(new Category() { Type = CategoryType.General, ParentId = 0, View="Index", Order = 0, Target = LinkTarget._self, General = new CategoryGeneral() { ContentView = "Index" } });
+            return View(new Category() { Type = CategoryType.General, ParentId = 0, View = "Index", Order = 0, Target = LinkTarget._self, General = new CategoryGeneral() { ContentView = "Index" } });
         }
 
         [HttpPost]
-        public async Task<IActionResult>  Add([FromServices]InterfaceModuleService moduleService,Category category)
+        public async Task<IActionResult> Add([FromServices]InterfaceModuleService moduleService, Category category)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 //检查父栏目
                 if (category.ParentId > 0)
@@ -106,9 +106,9 @@ namespace Ninesky.Web.Areas.System.Controllers
                         }
                         break;
                 }
-                
+
                 //保存到数据库
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     if (await _categoryService.AddAsync(category) > 0) return View("AddSucceed", category);
                     else ModelState.AddModelError("", "保存数据失败");
@@ -147,16 +147,9 @@ namespace Ninesky.Web.Areas.System.Controllers
             //模型验证是否通过
             if (ModelState.IsValid)
             {
-                //原栏目
-               
-
-                    //更新数据库
-                    if (ModelState.IsValid)
-                    {
-                        if (await _categoryService.UpdateAsync(category)) return View("UpdateSucceed", category);
-                        else ModelState.AddModelError("", "保存数据失败");
-                    }
-                }
+                var oResult = await _categoryService.UpdateAsync(moduleService, category);
+                if (oResult.Succeed) return View("UpdateSucceed", category);
+                else ModelState.AddModelError("", oResult.Message);
             }
             var modules = await moduleService.FindListAsync(true);
             var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();

@@ -23,7 +23,7 @@ namespace Ninesky.InterfaceBase
         /// <param name="paretn">父栏</param>
         /// <param name="category">栏目</param>
         /// <returns></returns>
-        OperationResult CanParen(Category parent, Category category);
+        OperationResult CanParent(Category parent, Category category);
         /// <summary>
         /// 查找树形菜单
         /// </summary>

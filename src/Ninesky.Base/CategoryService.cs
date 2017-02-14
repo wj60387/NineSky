@@ -188,6 +188,7 @@ namespace Ninesky.Base
                                     //此栏目是否有内容
                                     break;
                             }
+                            //***此处位置是否恰当
                             await moduleService.RemoveAsync(new Module { ModuleId = (int)originalCategory.General.ModuleId }, false);
                         }
                     }
@@ -217,8 +218,16 @@ namespace Ninesky.Base
                             }
                             else
                             {
-                                if (category.Page != null) category.Page = null;
-                                if (category.Link != null) category.Link = null;
+                                if (originalCategory.General == null) originalCategory.General = category.General;
+                                else
+                                {
+                                    originalCategory.General.ContentOrder = category.General.ContentOrder;
+                                    originalCategory.General.ContentView = category.General.ContentView;
+                                    originalCategory.General.CategoryId = originalCategory.CategoryId;
+                                    originalCategory.General.ModuleId = category.General.ModuleId;
+                                }
+                                if (originalCategory.Page != null) originalCategory.Page = null;
+                                if (originalCategory.Link != null) originalCategory.Link = null;
                             }
                         }
                         break;
@@ -238,8 +247,14 @@ namespace Ninesky.Base
                             }
                             else
                             {
-                                if (category.General != null) category.General = null;
-                                if (category.Link != null) category.Link = null;
+                                if (originalCategory.Page == null) originalCategory.Page = category.Page;
+                                else
+                                {
+                                    originalCategory.Page.Content = category.Page.Content;
+                                    
+                                }
+                                if (originalCategory.General != null) originalCategory.General = null;
+                                if (originalCategory.Link != null) originalCategory.Link = null;
                             }
                         }
                         break;
@@ -259,6 +274,11 @@ namespace Ninesky.Base
                             }
                             else
                             {
+                                if (originalCategory.Link == null) originalCategory.Link = category.Link;
+                                else
+                                {
+                                    originalCategory.Link.Url = category.Link.Url;
+                                }
                                 if (category.General != null) category.General = null;
                                 if (category.General != null) category.General = null;
                             }

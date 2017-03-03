@@ -44,6 +44,7 @@ namespace Ninesky.Base
             }
             return oResult;
         }
+
         /// <summary>
         /// 查找
         /// </summary>
@@ -124,12 +125,34 @@ namespace Ninesky.Base
         }
 
         /// <summary>
-        /// 
+        /// 删除子栏目
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="isSave"></param>
+        /// <param name="id">栏目ID</param>
         /// <returns></returns>
-        public async Task<OperationResult> UpdateAsync(InterfaceModuleService moduleService, Category category, bool isSave = true)
+        public async Task<OperationResult> RemoveAsync(int id)
+        {
+            Category category = await FindAsync(id);
+            switch (category.Type)
+            {
+                case CategoryType.General:
+                    if (category.General.ModuleId != null && category.General.ModuleId > 0)
+                    {
+                        ModuleService moduleService = new ModuleService(this._dbContext);
+                        await moduleService.RemoveAsync(new Module() { ModuleId = (int)category.General.ModuleId }, false);
+                    }
+
+                    break;
+            }
+            return new OperationResult();
+        }
+
+        /// <summary>
+        /// 更新栏目
+        /// </summary>
+        /// <param name="entity">栏目实体</param>
+        /// <param name="isSave">立即保存</param>
+        /// <returns></returns>
+        public override async Task<OperationResult> UpdateAsync(Category category, bool isSave = true)
         {
             var oResult = new OperationResult() { Succeed = true, Message = "更新成功栏目" };
             var originalCategory = await FindAsync(category.CategoryId);
@@ -180,6 +203,7 @@ namespace Ninesky.Base
                         //栏目是否设置了内容
                         if (originalCategory.General.ModuleId > 0)
                         {
+                            ModuleService moduleService = new ModuleService(this._dbContext);
                             var moduleId = (await FindAsync((int)originalCategory.General.ModuleId)).General.ModuleId;
                             var controller = (await moduleService.FindAsync((int)moduleId)).Controller;
                             switch (controller)

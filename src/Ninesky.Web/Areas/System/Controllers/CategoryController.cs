@@ -122,6 +122,17 @@ namespace Ninesky.Web.Areas.System.Controllers
         }
 
         /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="id">栏目ID</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return Json(await _categoryService.RemoveAsync(id));
+        }
+
+        /// <summary>
         /// 详细(修改)
         /// </summary>
         /// <param name="id">栏目ID</param>
@@ -147,7 +158,7 @@ namespace Ninesky.Web.Areas.System.Controllers
             //模型验证是否通过
             if (ModelState.IsValid)
             {
-                var oResult = await _categoryService.UpdateAsync(moduleService, category);
+                var oResult = await _categoryService.UpdateAsync(category);
                 if (oResult.Succeed) return View("UpdateSucceed", category);
                 else ModelState.AddModelError("", oResult.Message);
             }

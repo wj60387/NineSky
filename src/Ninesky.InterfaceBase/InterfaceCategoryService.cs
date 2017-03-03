@@ -24,6 +24,14 @@ namespace Ninesky.InterfaceBase
         /// <param name="category">栏目</param>
         /// <returns></returns>
         OperationResult CanParent(Category parent, Category category);
+
+        /// <summary>
+        /// 删除栏目
+        /// </summary>
+        /// <param name="id">栏目Id</param>
+        /// <returns></returns>
+        Task<OperationResult> RemoveAsync(int id);
+
         /// <summary>
         /// 查找树形菜单
         /// </summary>
@@ -44,6 +52,5 @@ namespace Ninesky.InterfaceBase
         /// <param name="id">栏目ID</param>
         /// <returns></returns>
         Task<IQueryable<Category>> FindChildrenAsync(int id);
-        Task<OperationResult> UpdateAsync(InterfaceModuleService moduleService, Category category, bool isSave = true);
     }
 }

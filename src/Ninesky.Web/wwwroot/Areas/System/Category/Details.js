@@ -15,9 +15,13 @@ $(document).ready(
                 callback: function (result) {
                     if (result) {
                         $.post("/System/Category/Delete/", { id: $("#btn_del").attr("data-value") }, function (data) {
-                            if (data != undefined)
-                            { }
-                            else BootstrapDialog.alert("请求失败！");
+                            if (data != undefined) {
+                                if (data.succeed == true) {
+                                    BootstrapDialog.alert({ title: "成功", message: data.message, callback: function () { location.href = "/System/Category"; } });
+                                }
+                                else BootstrapDialog.alert({ title: "失败", message: data.message });
+                            }
+                            else BootstrapDialog.alert({ title: "消息", message: "请求失败" });
                         }, 'json');
                     }
                 }

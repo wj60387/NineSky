@@ -2,3 +2,11 @@
 @{
     ViewData["Title"] = "你好";
 }
+<ol class="breadcrumb">
+    <li><span class="fa fa-home"></span>  <a asp-controller="Home" asp-action="Index">首页</a></li>
+    <li><a asp-controller="Category" asp-action="Index" class="active">栏目管理</a></li>
+</ol>
+@section aside{
+
+    @Html.Partial("Aside")
+}

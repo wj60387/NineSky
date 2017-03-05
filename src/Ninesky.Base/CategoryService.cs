@@ -6,13 +6,13 @@
  代码：git.oschina.net/ninesky/Ninesky
  版本：v1.0.0.0
  =====================================*/
+using Microsoft.EntityFrameworkCore;
+using Ninesky.InterfaceBase;
+using Ninesky.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Ninesky.Models;
-using Ninesky.InterfaceBase;
 
 namespace Ninesky.Base
 {
@@ -131,19 +131,40 @@ namespace Ninesky.Base
         /// <returns></returns>
         public async Task<OperationResult> RemoveAsync(int id)
         {
+            OperationResult opResult = new OperationResult();
             Category category = await FindAsync(id);
             switch (category.Type)
             {
                 case CategoryType.General:
-                    if (category.General.ModuleId != null && category.General.ModuleId > 0)
+                    if (category.General != null)
                     {
-                        ModuleService moduleService = new ModuleService(this._dbContext);
-                        await moduleService.RemoveAsync(new Module() { ModuleId = (int)category.General.ModuleId }, false);
+                        if (category.General.ModuleId != null && category.General.ModuleId > 0)
+                        {
+                            ModuleService moduleService = new ModuleService(this._dbContext);
+                            await moduleService.RemoveAsync(new Module() { ModuleId = (int)category.General.ModuleId }, false);
+                        }
+                        CategoryGeneralService gengralService = new CategoryGeneralService(this._dbContext);
+                        await gengralService.RemoveAsync(category.General, false);
                     }
-
+                    break;
+                case CategoryType.Page:
+                    if (category.Page != null)
+                    {
+                        CategoryPageService pageService = new CategoryPageService(this._dbContext);
+                        await pageService.RemoveAsync(category.Page, false);
+                    }
+                    break;
+                case CategoryType.Link:
+                    if (category.Link != null)
+                    {
+                        CategoryLinkService linkService = new CategoryLinkService(this._dbContext);
+                        await linkService.RemoveAsync(category.Link, false);
+                    }
                     break;
             }
-            return new OperationResult();
+            opResult.Succeed = await RemoveAsync(category);
+            if (opResult.Succeed) opResult.Message = "删除栏目成功";
+            return opResult;
         }
 
         /// <summary>

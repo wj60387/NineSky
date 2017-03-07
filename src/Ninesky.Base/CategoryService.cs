@@ -136,6 +136,12 @@ namespace Ninesky.Base
             switch (category.Type)
             {
                 case CategoryType.General:
+                    if (await HasChildren(id))
+                    {
+                        opResult.Succeed = false;
+                        opResult.Message = "请先删除子栏目";
+                        return opResult;
+                    }
                     if (category.General != null)
                     {
                         if (category.General.ModuleId != null && category.General.ModuleId > 0)
@@ -341,6 +347,16 @@ namespace Ninesky.Base
                 oResult = await UpdateAsync(originalCategory);
             }
             return oResult;
+        }
+
+        /// <summary>
+        /// 是否存在子栏目
+        /// </summary>
+        /// <param name="id">栏目ID</param>
+        /// <returns></returns>
+        public async Task<bool> HasChildren(int id)
+        {
+            return await ExistsAsync(c => c.ParentId == id);
         }
     }
 }

@@ -52,5 +52,12 @@ namespace Ninesky.InterfaceBase
         /// <param name="id">栏目ID</param>
         /// <returns></returns>
         Task<IQueryable<Category>> FindChildrenAsync(int id);
+        
+        /// <summary>
+        /// 是否存在子栏目
+        /// </summary>
+        /// <param name="id">栏目ID</param>
+        /// <returns></returns>
+        Task<bool> HasChildren(int id);
     }
 }

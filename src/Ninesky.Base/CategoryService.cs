@@ -344,7 +344,7 @@ namespace Ninesky.Base
                 originalCategory.Target = category.Target;
                 originalCategory.View = category.View;
                 originalCategory.Description = category.Description;
-                oResult = await UpdateAsync(originalCategory);
+                oResult = await base.UpdateAsync(originalCategory);
             }
             return oResult;
         }

@@ -100,7 +100,7 @@
                         <div class="form-group">
                             <label asp-for="General.ContentOrder" class="col-md-2 control-label"></label>
                             <div class="col-md-10">
-                                <select asp-for="General.ContentOrder" class="form-control" data-url="@Url.Action("OrderList","Module")"></select>
+                                <select asp-for="General.ContentOrder" class="form-control" data-url="@Url.Action("OrderList","Module")" data-ns-value="@Model.General.ContentOrder"></select>
                                 <span asp-validation-for="General.ContentOrder" class="text-danger"></span>
                             </div>
                         </div>

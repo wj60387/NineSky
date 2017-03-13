@@ -15,6 +15,8 @@ using Newtonsoft.Json;
 using System.Reflection;
 using System.Runtime.Loader;
 using Microsoft.Extensions.DependencyModel;
+using Ninesky.InterfaceBase;
+using Ninesky.Base;
 
 namespace Ninesky.Web
 {
@@ -46,21 +48,26 @@ namespace Ninesky.Web
             services.AddDbContext<NineskyDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<DbContext, NineskyDbContext>();
             services.AddMvc();
-           
+
             #region 依赖注入
-            var assemblyCollections =  new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("service.json").Build().GetSection("AssemblyCollections").Get<List<AssemblyItem>>();
-
-            foreach(var assembly in assemblyCollections)
-            {
-                var serviceAssembly = Assembly.Load(new AssemblyName(assembly.ServiceAssembly));
-                var implementationAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(AppContext.BaseDirectory + "//" + assembly.ImplementationAssembly);
-                foreach(var service in assembly.DICollections)
-                {
-                    services.Add(new ServiceDescriptor(serviceAssembly.GetType(service.ServiceType), implementationAssembly.GetType(service.ImplementationType), service.LifeTime));
-                }
-            }
-
+            services.AddScoped<InterfaceCategoryService, CategoryService>();
+            services.AddScoped<InterfaceModuleService, ModuleService>();
             #endregion
+
+            //#region Json文件依赖注入
+            //var assemblyCollections =  new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("service.json").Build().GetSection("AssemblyCollections").Get<List<AssemblyItem>>();
+
+            //foreach(var assembly in assemblyCollections)
+            //{
+            //    var serviceAssembly = Assembly.Load(new AssemblyName(assembly.ServiceAssembly));
+            //    var implementationAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(AppContext.BaseDirectory + "//" + assembly.ImplementationAssembly);
+            //    foreach(var service in assembly.DICollections)
+            //    {
+            //        services.Add(new ServiceDescriptor(serviceAssembly.GetType(service.ServiceType), implementationAssembly.GetType(service.ImplementationType), service.LifeTime));
+            //    }
+            //}
+
+            //#endregion
 
         }
 

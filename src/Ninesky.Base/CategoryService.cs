@@ -5,6 +5,8 @@
        mzwhj.cnblogs.com
  代码：git.oschina.net/ninesky/Ninesky
  版本：v1.0.0.0
+ ======================================
+ 2017.3.13：解决删除栏目会同时删除模块问题
  =====================================*/
 using Microsoft.EntityFrameworkCore;
 using Ninesky.InterfaceBase;
@@ -144,11 +146,11 @@ namespace Ninesky.Base
                     }
                     if (category.General != null)
                     {
-                        if (category.General.ModuleId != null && category.General.ModuleId > 0)
-                        {
-                            ModuleService moduleService = new ModuleService(this._dbContext);
-                            await moduleService.RemoveAsync(new Module() { ModuleId = (int)category.General.ModuleId }, false);
-                        }
+                        //if (category.General.ModuleId != null && category.General.ModuleId > 0)
+                        //{
+                        //    ModuleService moduleService = new ModuleService(this._dbContext);
+                        //    await moduleService.RemoveAsync(new Module() { ModuleId = (int)category.General.ModuleId }, false);
+                        //}
                         CategoryGeneralService gengralService = new CategoryGeneralService(this._dbContext);
                         await gengralService.RemoveAsync(category.General, false);
                     }
@@ -223,7 +225,6 @@ namespace Ninesky.Base
                 //栏目类型是否更改
                 if (oResult.Succeed && category.Type != originalCategory.Type)
                 {
-                    originalCategory.Type = category.Type;
                     //原栏目类型是否常规栏目
                     if (originalCategory.Type == CategoryType.General)
                     {
@@ -239,103 +240,219 @@ namespace Ninesky.Base
                                     //此栏目是否有内容
                                     break;
                             }
-                            //***此处位置是否恰当
-                            await moduleService.RemoveAsync(new Module { ModuleId = (int)originalCategory.General.ModuleId }, false);
                         }
                     }
+                    switch(originalCategory.Type)
+                    {
+                        case CategoryType.General:
+                            CategoryGeneralService cgService = new CategoryGeneralService(this._dbContext);
+                            await cgService.RemoveAsync(originalCategory.General, false);
+                            break;
+                        case CategoryType.Page:
+                            CategoryPageService cpService = new CategoryPageService(this._dbContext);
+                            await cpService.RemoveAsync(originalCategory.Page, false);
+                            break;
+                        case CategoryType.Link:
+                            CategoryLinkService clService = new CategoryLinkService(this._dbContext);
+                            await clService.RemoveAsync(originalCategory.Link,false);
+                            break;
+                    }
+
+                    //以下待处理
+                    switch (category.Type)
+                    {
+                        case CategoryType.General:
+                            if (category.General == null)
+                            {
+                                oResult.Succeed = false;
+                                oResult.Message = "请填写常规栏目内容。";
+                            }
+                            else
+                            {
+                                if (category.General.ModuleId > 0)
+                                {
+                                    if (string.IsNullOrEmpty(category.General.ContentView))
+                                    {
+                                        oResult.Succeed = false;
+                                        oResult.Message = "请填写栏目视图。";
+                                    }
+                                    else if (category.General.ContentOrder == null)
+                                    {
+                                        oResult.Succeed = false;
+                                        oResult.Message = "请选择内容排序方式";
+                                    }
+                                }
+                                else
+                                {
+                                    if (originalCategory.General == null) originalCategory.General = category.General;
+                                    else
+                                    {
+                                        originalCategory.General.ContentOrder = category.General.ContentOrder;
+                                        originalCategory.General.ContentView = category.General.ContentView;
+                                        originalCategory.General.CategoryId = originalCategory.CategoryId;
+                                        originalCategory.General.ModuleId = category.General.ModuleId;
+                                    }
+                                    if (originalCategory.Page != null) originalCategory.Page = null;
+                                    if (originalCategory.Link != null) originalCategory.Link = null;
+                                }
+                            }
+                            break;
+                        case CategoryType.Page:
+                            //检查
+                            if (category.Page == null)
+                            {
+                                oResult.Succeed = false;
+                                oResult.Message = "请填写单页栏目内容";
+                            }
+                            else
+                            {
+                                if (string.IsNullOrEmpty(category.Page.Content))
+                                {
+                                    oResult.Succeed = false;
+                                    oResult.Message = "请输入单页栏目内容";
+                                }
+                                else
+                                {
+                                    if (originalCategory.Page == null) originalCategory.Page = category.Page;
+                                    else
+                                    {
+                                        originalCategory.Page.Content = category.Page.Content;
+
+                                    }
+                                    if (originalCategory.General != null) originalCategory.General = null;
+                                    if (originalCategory.Link != null) originalCategory.Link = null;
+                                }
+                            }
+                            break;
+                        case CategoryType.Link:
+                            //检查
+                            if (category.Link == null)
+                            {
+                                oResult.Succeed = false;
+                                oResult.Message = "请填写连接栏目内容";
+                            }
+                            else
+                            {
+                                if (string.IsNullOrEmpty(category.Link.Url))
+                                {
+                                    oResult.Succeed = false;
+                                    oResult.Message = "请选择输入链接地址";
+                                }
+                                else
+                                {
+                                    if (originalCategory.Link == null) originalCategory.Link = category.Link;
+                                    else
+                                    {
+                                        originalCategory.Link.Url = category.Link.Url;
+                                    }
+                                    if (category.General != null) category.General = null;
+                                    if (category.General != null) category.General = null;
+                                }
+                            }
+                            break;
+                    }
+                    //待处理结束
+
                 }
-                switch (category.Type)
+                //栏目未更改
+                else
                 {
-                    case CategoryType.General:
-                        if (category.General == null)
-                        {
-                            oResult.Succeed = false;
-                            oResult.Message = "请填写常规栏目内容。";
-                        }
-                        else
-                        {
-                            if (category.General.ModuleId > 0)
-                            {
-                                if (string.IsNullOrEmpty(category.General.ContentView))
-                                {
-                                    oResult.Succeed = false;
-                                    oResult.Message = "请填写栏目视图。";
-                                }
-                                else if (category.General.ContentOrder == null)
-                                {
-                                    oResult.Succeed = false;
-                                    oResult.Message = "请选择内容排序方式";
-                                }
-                            }
-                            else
-                            {
-                                if (originalCategory.General == null) originalCategory.General = category.General;
-                                else
-                                {
-                                    originalCategory.General.ContentOrder = category.General.ContentOrder;
-                                    originalCategory.General.ContentView = category.General.ContentView;
-                                    originalCategory.General.CategoryId = originalCategory.CategoryId;
-                                    originalCategory.General.ModuleId = category.General.ModuleId;
-                                }
-                                if (originalCategory.Page != null) originalCategory.Page = null;
-                                if (originalCategory.Link != null) originalCategory.Link = null;
-                            }
-                        }
-                        break;
-                    case CategoryType.Page:
-                        //检查
-                        if (category.Page == null)
-                        {
-                            oResult.Succeed = false;
-                            oResult.Message = "请填写单页栏目内容";
-                        }
-                        else
-                        {
-                            if (string.IsNullOrEmpty(category.Page.Content))
+                    switch (category.Type)
+                    {
+                        //常规栏目
+                        case CategoryType.General:
+                            if (category.General == null)
                             {
                                 oResult.Succeed = false;
-                                oResult.Message = "请输入单页栏目内容";
+                                oResult.Message = "请填写常规栏目内容。";
                             }
                             else
                             {
-                                if (originalCategory.Page == null) originalCategory.Page = category.Page;
+                                //有内容模型
+                                if (category.General.ModuleId > 0)
+                                {
+                                    if (string.IsNullOrEmpty(category.General.ContentView))
+                                    {
+                                        oResult.Succeed = false;
+                                        oResult.Message = "请填写栏目视图。";
+                                    }
+                                    else if (category.General.ContentOrder == null)
+                                    {
+                                        oResult.Succeed = false;
+                                        oResult.Message = "请选择内容排序方式";
+                                    }
+                                }
                                 else
                                 {
-                                    originalCategory.Page.Content = category.Page.Content;
-                                    
+                                    if (originalCategory.General == null) originalCategory.General = category.General;
+                                    else
+                                    {
+                                        originalCategory.General.ContentOrder = category.General.ContentOrder;
+                                        originalCategory.General.ContentView = category.General.ContentView;
+                                        originalCategory.General.CategoryId = originalCategory.CategoryId;
+                                        originalCategory.General.ModuleId = category.General.ModuleId;
+                                    }
+                                    if (originalCategory.Page != null) originalCategory.Page = null;
+                                    if (originalCategory.Link != null) originalCategory.Link = null;
                                 }
-                                if (originalCategory.General != null) originalCategory.General = null;
-                                if (originalCategory.Link != null) originalCategory.Link = null;
                             }
-                        }
-                        break;
-                    case CategoryType.Link:
-                        //检查
-                        if (category.Link == null)
-                        {
-                            oResult.Succeed = false;
-                            oResult.Message = "请填写连接栏目内容";
-                        }
-                        else
-                        {
-                            if (string.IsNullOrEmpty(category.Link.Url))
+                            break;
+                        case CategoryType.Page:
+                            //检查
+                            if (category.Page == null)
                             {
                                 oResult.Succeed = false;
-                                oResult.Message = "请选择输入链接地址";
+                                oResult.Message = "请填写单页栏目内容";
                             }
                             else
                             {
-                                if (originalCategory.Link == null) originalCategory.Link = category.Link;
+                                if (string.IsNullOrEmpty(category.Page.Content))
+                                {
+                                    oResult.Succeed = false;
+                                    oResult.Message = "请输入单页栏目内容";
+                                }
                                 else
                                 {
-                                    originalCategory.Link.Url = category.Link.Url;
+                                    if (originalCategory.Page == null) originalCategory.Page = category.Page;
+                                    else
+                                    {
+                                        originalCategory.Page.Content = category.Page.Content;
+
+                                    }
+                                    if (originalCategory.General != null) originalCategory.General = null;
+                                    if (originalCategory.Link != null) originalCategory.Link = null;
                                 }
-                                if (category.General != null) category.General = null;
-                                if (category.General != null) category.General = null;
                             }
-                        }
-                        break;
+                            break;
+                        case CategoryType.Link:
+                            //检查
+                            if (category.Link == null)
+                            {
+                                oResult.Succeed = false;
+                                oResult.Message = "请填写连接栏目内容";
+                            }
+                            else
+                            {
+                                if (string.IsNullOrEmpty(category.Link.Url))
+                                {
+                                    oResult.Succeed = false;
+                                    oResult.Message = "请选择输入链接地址";
+                                }
+                                else
+                                {
+                                    if (originalCategory.Link == null) originalCategory.Link = category.Link;
+                                    else
+                                    {
+                                        originalCategory.Link.Url = category.Link.Url;
+                                    }
+                                    if (category.General != null) category.General = null;
+                                    if (category.General != null) category.General = null;
+                                }
+                            }
+                            break;
+                    }
                 }
+                
             }
             if (oResult.Succeed)
             {

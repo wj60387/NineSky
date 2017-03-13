@@ -1,22 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7B3FAB87-0007-432F-9189-206477D5DC4C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D3C986DF-D659-4E9E-9837-27CEC18506AC}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Ninesky.Web", "src\Ninesky.Web\Ninesky.Web.xproj", "{D7FA504A-F149-4F90-9834-CF395A85D294}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ninesky.Web", "src\Ninesky.Web\Ninesky.Web.csproj", "{D7FA504A-F149-4F90-9834-CF395A85D294}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Ninesky.Base", "src\Ninesky.Base\Ninesky.Base.xproj", "{88E19B17-AA86-4D87-80F0-F67C8F14BAB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ninesky.Base", "src\Ninesky.Base\Ninesky.Base.csproj", "{88E19B17-AA86-4D87-80F0-F67C8F14BAB3}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Ninesky.Models", "src\Ninesky.Models\Ninesky.Models.xproj", "{B3680AF7-AC0A-4A38-87E6-3282A5317677}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ninesky.Models", "src\Ninesky.Models\Ninesky.Models.csproj", "{B3680AF7-AC0A-4A38-87E6-3282A5317677}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Ninesky.InterfaceBase", "src\Ninesky.InterfaceBase\Ninesky.InterfaceBase.xproj", "{8441AE00-7539-4A8B-AE2B-3D5F2D45B928}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ninesky.InterfaceBase", "src\Ninesky.InterfaceBase\Ninesky.InterfaceBase.csproj", "{8441AE00-7539-4A8B-AE2B-3D5F2D45B928}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

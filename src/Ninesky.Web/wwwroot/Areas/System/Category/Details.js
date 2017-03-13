@@ -29,13 +29,14 @@ var setting = {
 }
 function toggleContent() {
     if ($("#General_ModuleId").selectpicker('val') == "") {
-        $("#General_ContentOrder").empty();
+        $("#General_ContentOrder").empty(); 
     }
     else {
-        $.post($("#General.ContentOrder").attr("data-url"), { id: $('#General_ModuleId').val() }, function (data) {
+        $.post($("#General_ContentOrder").attr("data-url"), { id: $('#General_ModuleId').val() }, function (data) {
             if (data != undefined) {
                 $.each(data, function (ndex, element) {
-                    $("#General_ContentOrder").append("<option value='" + element.order + "'>" + element.name + "</option>");
+                    if (element.order == $('#General_ContentOrder').attr("data-ns-value")) $("#General_ContentOrder").append("<option selected=\"selected\" value='" + element.order + "'>" + element.name + "</option>");
+                    else $("#General_ContentOrder").append("<option value='" + element.order + "'>" + element.name + "</option>");
                 })
             }
         }, 'json');

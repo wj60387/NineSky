@@ -5,6 +5,15 @@
        mzwhj.cnblogs.com
  代码：git.oschina.net/ninesky/Ninesky
  版本：v1.0.0.0
+ ======================================
+ 说明:
+ 通用:<=0-默认排序
+        1-ID升序
+        2-ID降序
+        3-发布时间升序
+        4-发布时间降序
+        5-阅读次数升序
+        6-阅读次数降序
  =====================================*/
 using System.ComponentModel.DataAnnotations;
 

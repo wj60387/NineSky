@@ -129,10 +129,10 @@ namespace Ninesky.Models
 
 
         /// <summary>
-        /// 内容模型[大于0时有效]
+        /// 内容模块[大于0时有效]
         /// </summary>
-        [Display(Name = "内容模型")]
-        public int ContentModelId { get; set; }
+        [Display(Name = "内容模块")]
+        public int ContentModuleId { get; set; }
 
         /// <summary>
         /// 内容视图

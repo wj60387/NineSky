@@ -72,11 +72,8 @@ namespace Ninesky.Web.Areas.System.Controllers
                                 if (string.IsNullOrEmpty(category.General.ContentView)) ModelState.AddModelError("General.ContentView", "请填写栏目视图");
                                 if (category.General.ContentOrder == null) ModelState.AddModelError("General.ContentOrder", "请选择内容排序方式");
                             }
-                            else
-                            {
-                                if (category.Page != null) category.Page = null;
-                                if (category.Link != null) category.Link = null;
-                            }
+                            if (category.Page != null) category.Page = null;
+                            if (category.Link != null) category.Link = null;
                         }
                         break;
                     case CategoryType.Page:
@@ -85,11 +82,8 @@ namespace Ninesky.Web.Areas.System.Controllers
                         else
                         {
                             if (string.IsNullOrEmpty(category.Page.Content)) ModelState.AddModelError("Page.Content", "请输入单页栏目内容");
-                            else
-                            {
-                                if (category.General != null) category.General = null;
-                                if (category.Link != null) category.Link = null;
-                            }
+                            if (category.General != null) category.General = null;
+                            if (category.Link != null) category.Link = null;
                         }
                         break;
                     case CategoryType.Link:
@@ -98,11 +92,8 @@ namespace Ninesky.Web.Areas.System.Controllers
                         else
                         {
                             if (string.IsNullOrEmpty(category.Link.Url)) ModelState.AddModelError("Link.Url", "请选择输入链接地址");
-                            else
-                            {
-                                if (category.General != null) category.General = null;
-                                if (category.General != null) category.General = null;
-                            }
+                            if (category.General != null) category.General = null;
+                            if (category.General != null) category.General = null;
                         }
                         break;
                 }

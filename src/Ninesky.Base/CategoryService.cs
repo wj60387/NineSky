@@ -135,40 +135,15 @@ namespace Ninesky.Base
         {
             OperationResult opResult = new OperationResult();
             Category category = await FindAsync(id);
-            switch (category.Type)
+            if (category.Type == CategoryType.General)
             {
-                case CategoryType.General:
-                    if (await HasChildren(id))
-                    {
-                        opResult.Succeed = false;
-                        opResult.Message = "请先删除子栏目";
-                        return opResult;
-                    }
-                    if (category.General != null)
-                    {
-                        //if (category.General.ModuleId != null && category.General.ModuleId > 0)
-                        //{
-                        //    ModuleService moduleService = new ModuleService(this._dbContext);
-                        //    await moduleService.RemoveAsync(new Module() { ModuleId = (int)category.General.ModuleId }, false);
-                        //}
-                        CategoryGeneralService gengralService = new CategoryGeneralService(this._dbContext);
-                        await gengralService.RemoveAsync(category.General, false);
-                    }
-                    break;
-                case CategoryType.Page:
-                    if (category.Page != null)
-                    {
-                        CategoryPageService pageService = new CategoryPageService(this._dbContext);
-                        await pageService.RemoveAsync(category.Page, false);
-                    }
-                    break;
-                case CategoryType.Link:
-                    if (category.Link != null)
-                    {
-                        CategoryLinkService linkService = new CategoryLinkService(this._dbContext);
-                        await linkService.RemoveAsync(category.Link, false);
-                    }
-                    break;
+
+                if (await HasChildren(id))
+                {
+                    opResult.Succeed = false;
+                    opResult.Message = "请先删除子栏目";
+                    return opResult;
+                }
             }
             opResult.Succeed = await RemoveAsync(category);
             if (opResult.Succeed) opResult.Message = "删除栏目成功";

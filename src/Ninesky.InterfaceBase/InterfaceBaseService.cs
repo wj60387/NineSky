@@ -28,7 +28,7 @@ namespace Ninesky.InterfaceBase
         /// <param name="entity">实体</param>
         /// <param name="isSave">是否立即保存</param>
         /// <returns>添加的记录数[isSave=true时有效]</returns>
-        int Add(T entity, bool isSave = true);
+        OperationResult Add(T entity, bool isSave = true);
 
         /// <summary>
         /// 添加
@@ -36,7 +36,7 @@ namespace Ninesky.InterfaceBase
         /// <param name="entity">实体</param>
         /// <param name="isSave">是否立即保存</param>
         /// <returns>添加的记录数[isSave=true时有效]</returns>
-        Task<int> AddAsync(T entity, bool isSave = true);
+        Task<OperationResult> AddAsync(T entity, bool isSave = true);
 
         /// <summary>
         /// 添加[批量]

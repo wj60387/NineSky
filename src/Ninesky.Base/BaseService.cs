@@ -35,11 +35,21 @@ namespace Ninesky.Base
         /// <param name="entity">实体</param>
         /// <param name="isSave">是否立即保存</param>
         /// <returns>添加的记录数[isSave=true时有效]</returns>
-        public virtual int Add(T entity, bool isSave = true)
+        public virtual OperationResult Add(T entity, bool isSave = true)
         {
+            OperationResult opsResult = new OperationResult();
             _dbContext.Set<T>().Add(entity);
-            if (isSave) return _dbContext.SaveChanges();
-            else return 0;
+            if (isSave)
+            {
+                opsResult.Succeed = _dbContext.SaveChanges() > 0;
+                opsResult.Message = opsResult.Succeed ? "添加成功" : "添加失败";
+            }
+            else
+            {
+                opsResult.Succeed = false;
+                opsResult.Message = "添加已缓存";
+            }
+            return opsResult;
         }
 
         /// <summary>
@@ -48,11 +58,21 @@ namespace Ninesky.Base
         /// <param name="entity">实体</param>
         /// <param name="isSave">是否立即保存</param>
         /// <returns>添加的记录数[isSave=true时有效]</returns>
-        public virtual async Task<int> AddAsync(T entity, bool isSave = true)
+        public virtual async Task<OperationResult> AddAsync(T entity, bool isSave = true)
         {
+            OperationResult opsResult = new OperationResult();
             await _dbContext.Set<T>().AddAsync(entity);
-            if (isSave) return await _dbContext.SaveChangesAsync();
-            else return 0;
+            if (isSave)
+            {
+                opsResult.Succeed = _dbContext.SaveChanges() > 0;
+                opsResult.Message = opsResult.Succeed ? "添加成功" : "添加失败";
+            }
+            else
+            {
+                opsResult.Succeed = false;
+                opsResult.Message = "添加已缓存";
+            }
+            return opsResult;
         }
 
         /// <summary>

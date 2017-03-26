@@ -47,20 +47,41 @@ namespace Ninesky.Base
             return oResult;
         }
 
-        /// <summary>
-        /// 查找
-        /// </summary>
-        /// <param name="Id">栏目ID</param>
-        /// <returns></returns>
-        public override Category Find(int Id)
+
+        public override async Task<OperationResult> AddAsync(Category entity, bool isSave = true)
         {
-            return _dbContext.Set<Category>().Include("General").Include("Page").Include("Link").SingleOrDefault(c => c.CategoryId == Id);
+            OperationResult opsResult = new OperationResult();
+            //检查父栏目
+            if (entity.ParentId > 0)
+            {
+                var parentCategory = await FindAsync(entity.ParentId);
+                if (parentCategory == null)
+                {
+                    opsResult.Succeed = false;
+                    opsResult.Message = "父栏目不存在";
+                }
+                else if (parentCategory.Type != CategoryType.General)
+                {
+                    opsResult.Succeed = false;
+                    opsResult.Message = "父栏目不是常规栏目";
+                }
+                else
+                {
+                    entity.ParentPath = parentCategory.ParentPath + "," + parentCategory.CategoryId;
+                    entity.Depth = parentCategory.Depth + 1;
+                }
+            }
+            else
+            {
+                entity.ParentPath = "0";
+                entity.Depth = 0;
+            }
+
+            if (opsResult.Succeed) opsResult = await base.AddAsync(entity);
+
+            return opsResult;
         }
 
-        public override async Task<Category> FindAsync(int Id)
-        {
-            return await _dbContext.Set<Category>().Include("General").Include("Page").Include("Link").FirstOrDefaultAsync(c => c.CategoryId == Id);
-        }
         /// <summary>
         /// 查找子栏目
         /// </summary>
@@ -133,21 +154,31 @@ namespace Ninesky.Base
         /// <returns></returns>
         public async Task<OperationResult> RemoveAsync(int id)
         {
-            OperationResult opResult = new OperationResult();
+            OperationResult opsResult = new OperationResult();
             Category category = await FindAsync(id);
+            if (category == null) return new OperationResult() { Succeed = false, Message = "栏目不存在" };
             if (category.Type == CategoryType.General)
             {
-
-                if (await HasChildren(id))
-                {
-                    opResult.Succeed = false;
-                    opResult.Message = "请先删除子栏目";
-                    return opResult;
-                }
+                if (category.ChildNum > 0) return new OperationResult() { Succeed = false, Message = "请先删除子栏目" };
+                //此处应检查是否有内容
             }
-            opResult.Succeed = await RemoveAsync(category);
-            if (opResult.Succeed) opResult.Message = "删除栏目成功";
-            return opResult;
+            int parentId = category.ParentId;
+            opsResult.Succeed = await RemoveAsync(category);
+            if (opsResult.Succeed)
+            {
+                //父栏目中的子栏目数目减1
+                if(parentId >0)
+                {
+                    var parent = await FindAsync(parentId);
+                    if(parent != null)
+                    {
+                        parent.ChildNum--;
+                        await base.UpdateAsync(parent);
+                    }
+                }
+                opsResult.Message = "删除栏目成功";
+            }
+            return opsResult;
         }
 
         /// <summary>
@@ -160,23 +191,20 @@ namespace Ninesky.Base
         {
             var oResult = new OperationResult() { Succeed = true, Message = "更新成功栏目" };
             var originalCategory = await FindAsync(category.CategoryId);
-            //修改的栏目是否存在
-            if (originalCategory == null)
+            //栏目是否存在
+            if (originalCategory == null) return new OperationResult() { Succeed = false, Message = "栏目不存在，请确认栏目【" + category.Name + "】是否已被删除？" };
+            //栏目类型是否更改
+            else if (category.Type != originalCategory.Type) return new OperationResult() { Succeed = false, Message = "禁止修改栏目类型" };
+            //父栏目是否更改
+            else if (category.ParentId != originalCategory.ParentId)
             {
-                oResult.Succeed = false;
-                oResult.Message = "栏目不存在，请确认栏目【" + category.Name + "】是否已被删除？";
-            }
-            else
-            {
-                //父栏目是否更改
-                if (category.ParentId != originalCategory.ParentId)
+                //查找新父栏目
+                var parentCategory = await FindAsync(category.ParentId);
+                //新父栏目不存在
+                if (parentCategory == null) return new OperationResult() { Succeed = false, Message = "父栏目不存在" };
+                else
                 {
-                    var parentCategory = await FindAsync(category.ParentId);
-                    if(parentCategory ==null)
-                    {
-                        oResult.Succeed = false;
-                        oResult.Message = "父栏目不存在";
-                    }
+                    //是否可以作为当前栏目的父栏目
                     var canParentResult = CanParent(parentCategory, originalCategory);
                     if (canParentResult.Succeed)
                     {
@@ -184,271 +212,47 @@ namespace Ninesky.Base
                         {
                             originalCategory.ParentId = category.ParentId;
                             originalCategory.ParentPath = "0";
+                            originalCategory.Depth = 0;
                         }
                         else
                         {
+                            //更改原来父栏目的子栏目数
+                            var originalParent = await FindAsync(originalCategory.ParentId);
+                            if(originalParent !=null)
+                            {
+                                originalParent.ChildNum--;
+                                await base.UpdateAsync(originalParent, false);
+                            }
+                            //更改栏目的父栏目ID，路径及深度
                             originalCategory.ParentId = category.ParentId;
                             originalCategory.ParentPath = parentCategory.ParentPath + "," + parentCategory.CategoryId;
+                            originalCategory.Depth = parentCategory.Depth + 1;
+                            
+
                         }
+                        //此处应考虑此栏目如果有子栏目，则需要更改Depth。
                     }
-                    else
-                    {
-                        oResult.Succeed = false;
-                        oResult.Message = canParentResult.Message;
-                    }
+                    else return canParentResult;
                 }
-                //栏目类型是否更改
-                if (oResult.Succeed && category.Type != originalCategory.Type)
+
+                switch (category.Type)
                 {
-                    //原栏目类型是否常规栏目
-                    if (originalCategory.Type == CategoryType.General)
-                    {
-                        //栏目是否设置了内容
-                        if (originalCategory.General.ModuleId > 0)
-                        {
-                            ModuleService moduleService = new ModuleService(this._dbContext);
-                            var moduleId = (await FindAsync((int)originalCategory.General.ModuleId)).General.ModuleId;
-                            var controller = (await moduleService.FindAsync((int)moduleId)).Controller;
-                            switch (controller)
-                            {
-                                case "Article":
-                                    //此栏目是否有内容
-                                    break;
-                            }
-                        }
-                    }
-                    switch(originalCategory.Type)
-                    {
-                        case CategoryType.General:
-                            CategoryGeneralService cgService = new CategoryGeneralService(this._dbContext);
-                            await cgService.RemoveAsync(originalCategory.General, false);
-                            break;
-                        case CategoryType.Page:
-                            CategoryPageService cpService = new CategoryPageService(this._dbContext);
-                            await cpService.RemoveAsync(originalCategory.Page, false);
-                            break;
-                        case CategoryType.Link:
-                            CategoryLinkService clService = new CategoryLinkService(this._dbContext);
-                            await clService.RemoveAsync(originalCategory.Link,false);
-                            break;
-                    }
-
-                    //以下待处理
-                    switch (category.Type)
-                    {
-                        case CategoryType.General:
-                            if (category.General == null)
-                            {
-                                oResult.Succeed = false;
-                                oResult.Message = "请填写常规栏目内容。";
-                            }
-                            else
-                            {
-                                if (category.General.ModuleId > 0)
-                                {
-                                    if (string.IsNullOrEmpty(category.General.ContentView))
-                                    {
-                                        oResult.Succeed = false;
-                                        oResult.Message = "请填写栏目视图。";
-                                    }
-                                    else if (category.General.ContentOrder == null)
-                                    {
-                                        oResult.Succeed = false;
-                                        oResult.Message = "请选择内容排序方式";
-                                    }
-                                }
-                                else
-                                {
-                                    if (originalCategory.General == null) originalCategory.General = category.General;
-                                    else
-                                    {
-                                        originalCategory.General.ContentOrder = category.General.ContentOrder;
-                                        originalCategory.General.ContentView = category.General.ContentView;
-                                        originalCategory.General.CategoryId = originalCategory.CategoryId;
-                                        originalCategory.General.ModuleId = category.General.ModuleId;
-                                    }
-                                    if (originalCategory.Page != null) originalCategory.Page = null;
-                                    if (originalCategory.Link != null) originalCategory.Link = null;
-                                }
-                            }
-                            break;
-                        case CategoryType.Page:
-                            //检查
-                            if (category.Page == null)
-                            {
-                                oResult.Succeed = false;
-                                oResult.Message = "请填写单页栏目内容";
-                            }
-                            else
-                            {
-                                if (string.IsNullOrEmpty(category.Page.Content))
-                                {
-                                    oResult.Succeed = false;
-                                    oResult.Message = "请输入单页栏目内容";
-                                }
-                                else
-                                {
-                                    if (originalCategory.Page == null) originalCategory.Page = category.Page;
-                                    else
-                                    {
-                                        originalCategory.Page.Content = category.Page.Content;
-
-                                    }
-                                    if (originalCategory.General != null) originalCategory.General = null;
-                                    if (originalCategory.Link != null) originalCategory.Link = null;
-                                }
-                            }
-                            break;
-                        case CategoryType.Link:
-                            //检查
-                            if (category.Link == null)
-                            {
-                                oResult.Succeed = false;
-                                oResult.Message = "请填写连接栏目内容";
-                            }
-                            else
-                            {
-                                if (string.IsNullOrEmpty(category.Link.Url))
-                                {
-                                    oResult.Succeed = false;
-                                    oResult.Message = "请选择输入链接地址";
-                                }
-                                else
-                                {
-                                    if (originalCategory.Link == null) originalCategory.Link = category.Link;
-                                    else
-                                    {
-                                        originalCategory.Link.Url = category.Link.Url;
-                                    }
-                                    if (category.General != null) category.General = null;
-                                    if (category.General != null) category.General = null;
-                                }
-                            }
-                            break;
-                    }
-                    //待处理结束
-
+                    //常规栏目
+                    case CategoryType.General:
+                        break;
+                    case CategoryType.Page:
+                        break;
+                    case CategoryType.Link:
+                        break;
                 }
-                //栏目未更改
-                else
-                {
-                    switch (category.Type)
-                    {
-                        //常规栏目
-                        case CategoryType.General:
-                            if (category.General == null)
-                            {
-                                oResult.Succeed = false;
-                                oResult.Message = "请填写常规栏目内容。";
-                            }
-                            else
-                            {
-                                //有内容模型
-                                if (category.General.ModuleId > 0)
-                                {
-                                    if (string.IsNullOrEmpty(category.General.ContentView))
-                                    {
-                                        oResult.Succeed = false;
-                                        oResult.Message = "请填写栏目视图。";
-                                    }
-                                    else if (category.General.ContentOrder == null)
-                                    {
-                                        oResult.Succeed = false;
-                                        oResult.Message = "请选择内容排序方式";
-                                    }
-                                }
-                                else
-                                {
-                                    if (originalCategory.General == null) originalCategory.General = category.General;
-                                    else
-                                    {
-                                        originalCategory.General.ContentOrder = category.General.ContentOrder;
-                                        originalCategory.General.ContentView = category.General.ContentView;
-                                        originalCategory.General.CategoryId = originalCategory.CategoryId;
-                                        originalCategory.General.ModuleId = category.General.ModuleId;
-                                    }
-                                    if (originalCategory.Page != null) originalCategory.Page = null;
-                                    if (originalCategory.Link != null) originalCategory.Link = null;
-                                }
-                            }
-                            break;
-                        case CategoryType.Page:
-                            //检查
-                            if (category.Page == null)
-                            {
-                                oResult.Succeed = false;
-                                oResult.Message = "请填写单页栏目内容";
-                            }
-                            else
-                            {
-                                if (string.IsNullOrEmpty(category.Page.Content))
-                                {
-                                    oResult.Succeed = false;
-                                    oResult.Message = "请输入单页栏目内容";
-                                }
-                                else
-                                {
-                                    if (originalCategory.Page == null) originalCategory.Page = category.Page;
-                                    else
-                                    {
-                                        originalCategory.Page.Content = category.Page.Content;
-
-                                    }
-                                    if (originalCategory.General != null) originalCategory.General = null;
-                                    if (originalCategory.Link != null) originalCategory.Link = null;
-                                }
-                            }
-                            break;
-                        case CategoryType.Link:
-                            //检查
-                            if (category.Link == null)
-                            {
-                                oResult.Succeed = false;
-                                oResult.Message = "请填写连接栏目内容";
-                            }
-                            else
-                            {
-                                if (string.IsNullOrEmpty(category.Link.Url))
-                                {
-                                    oResult.Succeed = false;
-                                    oResult.Message = "请选择输入链接地址";
-                                }
-                                else
-                                {
-                                    if (originalCategory.Link == null) originalCategory.Link = category.Link;
-                                    else
-                                    {
-                                        originalCategory.Link.Url = category.Link.Url;
-                                    }
-                                    if (category.General != null) category.General = null;
-                                    if (category.General != null) category.General = null;
-                                }
-                            }
-                            break;
-                    }
-                }
-                
             }
-            if (oResult.Succeed)
-            {
-                originalCategory.Name = category.Name;
-                originalCategory.Order = category.Order;
-                originalCategory.Target = category.Target;
-                originalCategory.View = category.View;
-                originalCategory.Description = category.Description;
-                oResult = await base.UpdateAsync(originalCategory);
-            }
+            originalCategory.Name = category.Name;
+            originalCategory.Order = category.Order;
+            originalCategory.Target = category.Target;
+            originalCategory.View = category.View;
+            originalCategory.Description = category.Description;
+            oResult = await base.UpdateAsync(originalCategory);
             return oResult;
-        }
-
-        /// <summary>
-        /// 是否存在子栏目
-        /// </summary>
-        /// <param name="id">栏目ID</param>
-        /// <returns></returns>
-        public async Task<bool> HasChildren(int id)
-        {
-            return await ExistsAsync(c => c.ParentId == id);
         }
     }
 }

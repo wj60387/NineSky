@@ -1,5 +1,5 @@
 ﻿/// <autosync enabled="true" />
-/// <reference path="areas/system/category/details.js" />
+/// <reference path="areas/system/js/category/details.js" />
 /// <reference path="areas/System/js/system.js" />
 /// <reference path="js/site.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />

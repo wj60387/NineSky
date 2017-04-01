@@ -74,16 +74,5 @@ namespace Ninesky.Web.Areas.System.Controllers
         {
             return Json((await _moduleService.FindListAsync()).ToList());
         }
-
-        /// <summary>
-        /// ÅÅÐòÁÐ±í
-        /// </summary>
-        /// <param name="id">Ä£¿éId</param>
-        /// <returns></returns>
-        public async Task<IActionResult> OrderList(int id)
-        {
-            return Json((await _moduleService.FindOrderListAsync(id)).ToList());
-        }
-
     }
 }

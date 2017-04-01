@@ -19,11 +19,6 @@ namespace Ninesky.Base
         public ModuleService(DbContext dbContext) : base(dbContext)
         { }
 
-        public override Module Find(int Id)
-        {
-            return _dbContext.Set<Module>().Include(m => m.ModuleOrders).SingleOrDefault(m => m.ModuleId == Id);
-        }
-
 
         /// <summary>
         /// 查找
@@ -34,15 +29,6 @@ namespace Ninesky.Base
         {
             if (enable == null) return await FindListAsync();
             else return await FindListAsync(m => m.Enabled == enable);
-        }
-        /// <summary>
-        /// 查找排序列表
-        /// </summary>
-        /// <param name="moduleId">模块ID</param>
-        /// <returns></returns>
-        public async Task<IQueryable<ModuleOrder>> FindOrderListAsync(int moduleId)
-        {
-            return await Task.FromResult(_dbContext.Set<ModuleOrder>().Where(mo => mo.ModuleId == moduleId));
         }
     }
 }

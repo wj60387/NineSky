@@ -48,10 +48,5 @@ namespace Ninesky.Models
         [Required(ErrorMessage = "{0}必填")]
         [Display(Name = "启用")]
         public bool Enabled { get; set; }
-
-        /// <summary>
-        /// 排序
-        /// </summary>
-        public virtual List<ModuleOrder> ModuleOrders { get; set; }
     }
 }

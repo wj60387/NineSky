@@ -38,15 +38,7 @@ namespace Ninesky.Web.Models
                 Controller = "Article",
                 Description = "实现文章功能",
                 Enabled = true,
-                Name = "文章模块",
-                ModuleOrders = new List<ModuleOrder> {
-                new ModuleOrder {   Name="ID升序", Order=0},
-                new ModuleOrder { Name="ID降序",Order=1 },
-                new ModuleOrder {Name="发布时间升序", Order=2 },
-                new ModuleOrder { Name="发布时间降序",Order=3},
-                new ModuleOrder { Name="点击升序",Order=4},
-                new ModuleOrder { Name="点击降序",Order=5}
-            }
+                Name = "文章模块"
             };
             modules.Add(module);
             dbContext.Modules.AddRange(modules);

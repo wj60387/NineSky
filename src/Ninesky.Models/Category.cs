@@ -28,13 +28,13 @@ namespace Ninesky.Models
         public CategoryType Type { get; set; }
 
         /// <summary>
-        /// 上级栏目ID
+        /// 所属栏目
         /// </summary>
         /// <remarks>
         /// 0-表示本栏目是根栏目，无上级栏目
         /// </remarks>
         [Required(ErrorMessage = "{0}必填")]
-        [Display(Name = "上级栏目")]
+        [Display(Name = "所属栏目")]
         public int ParentId { get; set; }
 
         /// <summary>
@@ -88,20 +88,19 @@ namespace Ninesky.Models
         /// 搜索引擎关键字
         /// </summary>
         [StringLength(255, ErrorMessage = "{0}长度最多{1}个字符。")]
-        [Display(Name = "Meta_Keywords")]
+        [Display(Name = "META关键词")]
         public string Meta_Keywords { get; set; }
 
         /// <summary>
         /// 搜索引擎描述
         /// </summary>
         [StringLength(255, ErrorMessage = "{0}长度最多{1}个字符。")]
-        [Display(Name = "Meta_Description")]
+        [Display(Name = "META网页描述")]
         public string Meta_Description { get; set; }
 
         /// <summary>
         /// 顶部菜单处显示
         /// </summary>
-        [StringLength(255, ErrorMessage = "{0}长度最多{1}个字符。")]
         [Display(Name = "顶部菜单处显示")]
         public bool ShowOnMenu { get; set; }
 
@@ -145,7 +144,7 @@ namespace Ninesky.Models
         /// 内容排序
         /// </summary>
         [Display(Name = "内容排序")]
-        public int ContentOrder { get; set; }
+        public ContentOrder ContentOrder { get; set; }
 
         /// <summary>
         /// 每页记录数

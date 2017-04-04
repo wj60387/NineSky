@@ -31,7 +31,7 @@ namespace Ninesky.Web.Areas.System.Controllers
         }
 
         /// <summary>
-        /// 添加
+        /// 添加常规栏目
         /// </summary>
         /// <param name="moduleService"></param>
         /// <param name="categoryType">栏目类型</param>
@@ -43,7 +43,7 @@ namespace Ninesky.Web.Areas.System.Controllers
             var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
             modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
             ViewData["Modules"] = modeleArry;
-            return View("View1", new Category() { Type = CategoryType.General, ParentId = 0, View = "Index", Order = 0, Target = LinkTarget._self});
+            return View(new Category() { Type = CategoryType.General, ParentId = 0, View = "Index", PageSize=20, Order = 0, Target = LinkTarget._self});
         }
 
         [HttpPost]
@@ -51,6 +51,8 @@ namespace Ninesky.Web.Areas.System.Controllers
         {
             if (ModelState.IsValid)
             {
+                category.Creater = "洞庭夕照";
+                category.Type = CategoryType.General;
                 var opsResult = await _categoryService.AddAsync(category);
                 if (opsResult.Succeed) return View("AddSucceed", category);
                 else ModelState.AddModelError("", opsResult.Message);
@@ -59,7 +61,7 @@ namespace Ninesky.Web.Areas.System.Controllers
             var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
             modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
             ViewData["Modules"] = modeleArry;
-            return View("View1",category);
+            return View(category);
         }
 
         /// <summary>

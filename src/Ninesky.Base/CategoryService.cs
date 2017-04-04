@@ -50,7 +50,9 @@ namespace Ninesky.Base
 
         public override async Task<OperationResult> AddAsync(Category entity, bool isSave = true)
         {
-            OperationResult opsResult = new OperationResult();
+            //设置默认值
+            entity.ChildNum = 0;
+            OperationResult opsResult = new OperationResult() { Succeed = true };
             //检查父栏目
             if (entity.ParentId > 0)
             {
@@ -69,6 +71,8 @@ namespace Ninesky.Base
                 {
                     entity.ParentPath = parentCategory.ParentPath + "," + parentCategory.CategoryId;
                     entity.Depth = parentCategory.Depth + 1;
+                    parentCategory.ChildNum++;
+                    await UpdateAsync(parentCategory, false);
                 }
             }
             else

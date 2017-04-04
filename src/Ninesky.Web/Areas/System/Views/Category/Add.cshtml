@@ -13,109 +13,182 @@
     <div class="panel-body">
         <form asp-action="Add">
             <div class="form-horizontal">
-                <div asp-validation-summary="All" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#base" role="tab" data-toggle="tab">基本信息</a></li>
-                    <li role="presentation"><a href="#general" role="tab" data-toggle="tab">常规栏目</a></li>
-                    <li role="presentation"><a href="#page" role="tab" data-toggle="tab">单页栏目</a></li>
-                    <li role="presentation"><a href="#link" role="tab" data-toggle="tab">链接栏目</a></li>
+                    <li role="presentation"><a href="#options" role="tab" data-toggle="tab">栏目选项</a></li>
+                    <li role="presentation"><a href="#template" role="tab" data-toggle="tab">模板选项</a></li>
+                    <li role="presentation"><a href="#webfront" role="tab" data-toggle="tab">前台式样</a></li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="base">
-
-                        </div>
+                        <input type="hidden" asp-for="Type" class="form-control" />
                         <div class="form-group">
-                            <label asp-for="Type" class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
-                                <select asp-for="Type" asp-items="Html.GetEnumSelectList<Ninesky.Models.CategoryType>()" class="selectpicker form-control" data-style="btn-dropdown"></select>
-                                <span asp-validation-for="Type" class="text-danger"></span>
+                            <div class="col-md-3">
+                                <label asp-for="ParentId" class="control-label"></label>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="input-group" style="width:280px;">
+                                    <input id="ParentId-text" type="text" class="form-control" readonly value="无" />
+                                    <ul id="ParentId-dropdown" class="dropdown-menu dropdown-menu-left ztree"></ul>
+                                    <div class="input-group-btn">
+                                        <button id="ParentId-btn" type="button" class="btn btn-default"><span class="caret"></span></button>
+                                    </div>
+                                    <input asp-for="ParentId" data-ns-url="@Url.Action("ParentTree", "Category")" class="form-control" style="width:0; visibility:hidden; position:absolute;padding:0" />
+                                </div>
+                                <span asp-validation-for="ParentId" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label asp-for="Name" class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
+                            <div class="col-md-3">
+                                <label asp-for="Name" class="control-label"></label>
+                            </div>
+                            <div class="col-md-9">
                                 <input asp-for="Name" class="form-control" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label asp-for="View" class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
-                                <input asp-for="View" class="form-control" />
-                                <span asp-validation-for="View" class="text-danger"></span>
+                            <div class="col-md-3">
+                                <label asp-for="PicUrl" class="control-label"></label><br />
+                                <text class="small">用于在栏目页显示指定的图片</text>
+                            </div>
+
+                            <div class="col-md-9">
+                                <input asp-for="PicUrl" class="form-control" />
+                                <span asp-validation-for="PicUrl" class="text-danger"></span>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label asp-for="Order" class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
-                                <input asp-for="Order" class="form-control" />
-                                <span asp-validation-for="Order" class="text-danger"></span>
+                            <div class="col-md-3">
+                                <label asp-for="Description" class="control-label"></label><br />
+                                <text class="small">用于在栏目页详细介绍栏目信息，支持HTML </text>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Target" class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
-                                <select asp-for="Target" asp-items="Html.GetEnumSelectList<Ninesky.Models.LinkTarget>()" class="selectpicker form-control" data-style="btn-dropdown"></select>
-                                <span asp-validation-for="Target" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Description" class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
+                            <div class="col-md-9">
                                 <textarea asp-for="Description" class="form-control"></textarea>
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                         </div>
 
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="general">
                         <div class="form-group">
-                            <label asp-for="General.ModuleId" class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
-                                <select asp-for="General.ModuleId" asp-items="@ViewData["Modules"] as List<SelectListItem>" class="selectpicker form-control" data-style="btn-dropdown"></select>
-                                <span asp-validation-for="General.ModuleId" class="text-danger"></span>
+                            <div class="col-md-3">
+                                <label asp-for="Meta_Keywords" class="control-label"></label><br />
+                                <span class="small">针对搜索引擎设置的关键词。多个关键词请用","号分隔 </span>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea asp-for="Meta_Keywords" class="form-control" ></textarea>
+                                <span asp-validation-for="Meta_Keywords" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="Meta_Description" class="control-label"></label><br />
+                                <text class="small">针对搜索引擎设置的网页描述。 多个描述请用,号分隔</text>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea asp-for="Meta_Description" class="form-control"></textarea>
+                                <span asp-validation-for="Meta_Description" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="options">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="Target" class="control-label"></label>
+                            </div>
+                            <div class="col-md-9">
+                                <select asp-for="Target" asp-items="Html.GetEnumSelectList<Ninesky.Models.LinkTarget>()" class="selectpicker form-control" data-style="btn-dropdown"></select>
+                                <span asp-validation-for="Target" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label asp-for="General.ContentView" class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
-                                <input asp-for="General.ContentView" class="form-control" />
-                                <span asp-validation-for="General.ContentView" class="text-danger"></span>
+                            <div class="col-md-3">
+                                <label asp-for="Order" class="control-label"></label><br />
+                                <text class="small">同级栏目数字越小排序越靠前</text>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="General.ContentOrder" class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
-                                <select asp-for="General.ContentOrder" class="form-control"></select>
-                                <span asp-validation-for="General.ContentOrder" class="text-danger"></span>
+                            <div class="col-md-9">
+                                <input asp-for="Order" class="form-control" />
+                                <span asp-validation-for="Order" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="page">
+                    <div role="tabpanel" class="tab-pane" id="template">
                         <div class="form-group">
-                            <label asp-for="Page.Content" class="control-label"></label>
-                            
-                                <textarea asp-for="Page.Content" ></textarea>
-                                <span asp-validation-for="Page.Content" class="text-danger"></span>
-                            
-                        </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="link">
-                        <div class="form-group">
-                            <label asp-for="Link.Url" class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
-                                <input asp-for="Link.Url" class="form-control" />
-                                <span asp-validation-for="Link.Url" class="text-danger"></span>
+                            <div class="col-md-3">
+                                <label asp-for="View" class="control-label"></label><br />
+                                <text class="small">栏目使用的视图文件</text>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="View" class="form-control" />
+                                <span asp-validation-for="View" class="text-danger"></span>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="ContentModuleId" class="control-label"></label><br />
+                                <text class="small">栏目的内容类型</text>
+                            </div>
+
+                            <div class="col-md-9">
+                                <select asp-for="ContentModuleId" asp-items="@ViewData["Modules"] as List<SelectListItem>" class="form-control"></select>
+                                <span asp-validation-for="ContentModuleId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="ContentView" class="control-label"></label><br />
+                                <text class="small">栏目内容的视图文件</text>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="ContentView" class="form-control" />
+                                <span asp-validation-for="ContentView" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="ContentOrder" class="control-label"></label><br />
+                                <text class="small">内容列表的排序方式</text>
+                            </div>
+                            <div class="col-md-9">
+                                <select asp-for="ContentOrder" asp-items="Html.GetEnumSelectList<Ninesky.Models.ContentOrder>()" class="form-control"></select>
+                                <span asp-validation-for="ContentOrder" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="PageSize" class="control-label"></label><br />
+                                <text class="small">分页显示此栏目中的内容时每页显示的内容条数</text>
+                                </div>
+                                <div class="col-md-9">
+                                    <input asp-for="PageSize" class="form-control" />
+                                    <span asp-validation-for="PageSize" class="text-danger"></span>
+                                </div>
+                            </div>
                     </div>
+                    <div role="tabpanel" class="tab-pane" id="webfront">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="ShowOnMenu" class="control-label"></label><br />
+                                <text class="small">只对一级栏目有效。</text>
+                                </div>
+                                <div class="col-md-9">
+                                    <input asp-for="ShowOnMenu" />
+                                </div>
+                            </div>
+                    </div>
+
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="添加" class="btn btn-default" />
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="添加" class="btn btn-default" />
                 </div>
             </div>
         </form>
@@ -127,67 +200,5 @@
 }
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/lib/ueditor/ueditor.config.js"></script>
-    <script src="~/lib/ueditor/ueditor.all.min.js"></script>
-    <script type="text/javascript">
-        var dropdownCategoryTree;
-        var setting = {
-            data: {
-                simpleData: {
-                    enable: true,
-                    idKey: "id",
-                    pIdKey: "pId",
-                    rootPId: 0
-                }
-            },
-            async: {
-                enable: true,
-                url: "@Url.Action("ParentTree", "Category")"
-            },
-            callback: {
-                onClick: function (event, treeId, treeNode) {
-                    $("#ParentId").val(treeNode.id);
-                    $("#ParentId-text").val(treeNode.name);
-                    $("#ParentId-dropdown").hide();
-                },
-                onAsyncSuccess: function (event, treeId, treeNode, msg) {
-                    var node = dropdownCategoryTree.getNodeByParam("id", $('#ParentId').val(), null);
-                    dropdownCategoryTree.selectNode(node);
-                    $('#ParentId-text').val(node.name);
-                }
-            }
-        };
-        function toggleContent() {
-            if ($("#General_ModuleId").selectpicker('val') == "") {
-                $("#General_ContentOrder").empty();
-            }
-            else {
-                $.post("@Url.Action("OrderList","Module")", { id: $('#General_ModuleId').val() }, function (data) {
-                    if (data != undefined) {
-                        $.each(data, function (ndex, element) {
-                            $("#General_ContentOrder").append("<option value='" + element.order + "'>" + element.name + "</option>");
-                        })
-                    }
-                }, 'json');
-
-            }
-        }
-        // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
-        $(document).ready(function () {
-            dropdownCategoryTree = $.fn.zTree.init($("#ParentId-dropdown"), setting);
-            dropdownCategoryTree.addNodes(null, { id: 0, name: "无" });
-            $("#ParentId-text").click(function () {
-                $("#ParentId-dropdown").show();
-            });
-            $("#ParentId-btn").click(function () {
-                $("#ParentId-dropdown").show();
-            });
-            toggleContent();
-            $('#General_ModuleId').on('changed.bs.select', function (e) {
-                toggleContent();
-            });
-            //富文本编辑器
-            var ue = UE.getEditor('Page_Content');
-        });
-    </script>
+    <script src="~/Areas/System/js/Category/Add.js"></script>
 }

@@ -1,0 +1,155 @@
+﻿@model Ninesky.Models.Category
+@{
+    ViewData["Title"] = "添加单页栏目";
+}
+
+<ol class="breadcrumb">
+    <li><span class="fa fa-home"></span>  <a asp-controller="Home" asp-action="Index">首页</a></li>
+    <li><a asp-controller="Category" asp-action="Index">栏目管理</a></li>
+    <li class="active">添加单页栏目</li>
+</ol>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form asp-action="Add">
+            <div class="form-horizontal">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#base" role="tab" data-toggle="tab">基本信息</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="base">
+                        <input type="hidden" asp-for="Type" class="form-control" />
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="ParentId" class="control-label"></label>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="input-group" style="width:280px;">
+                                    <input id="ParentId-text" type="text" class="form-control" readonly value="无" />
+                                    <ul id="ParentId-dropdown" class="dropdown-menu dropdown-menu-left ztree"></ul>
+                                    <div class="input-group-btn">
+                                        <button id="ParentId-btn" type="button" class="btn btn-default"><span class="caret"></span></button>
+                                    </div>
+                                    <input asp-for="ParentId" data-ns-url="@Url.Action("ParentTree", "Category")" class="form-control" style="width:0; visibility:hidden; position:absolute;padding:0" />
+                                </div>
+                                <span asp-validation-for="ParentId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="Name" class="control-label"></label>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="ShowOnMenu" class="control-label"></label><br />
+                                <text class="small">只对一级栏目有效。</text>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="ShowOnMenu" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="Target" class="control-label"></label>
+                            </div>
+                            <div class="col-md-9">
+                                <select asp-for="Target" asp-items="Html.GetEnumSelectList<Ninesky.Models.LinkTarget>()" class="selectpicker form-control" data-style="btn-dropdown"></select>
+                                <span asp-validation-for="Target" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="View" class="control-label"></label><br />
+                                <text class="small">栏目使用的视图文件</text>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="View" class="form-control" />
+                                <span asp-validation-for="View" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="Order" class="control-label"></label><br />
+                                <text class="small">同级栏目数字越小排序越靠前</text>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="Order" class="form-control" />
+                                <span asp-validation-for="Order" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="PicUrl" class="control-label"></label><br />
+                                <text class="small">用于在栏目页显示指定的图片</text>
+                            </div>
+
+                            <div class="col-md-9">
+                                <input asp-for="PicUrl" class="form-control" />
+                                <span asp-validation-for="PicUrl" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="Description" class="control-label"></label><br />
+                                <text class="small">用于在栏目页详细介绍栏目信息，支持HTML </text>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea asp-for="Description" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="Meta_Keywords" class="control-label"></label><br />
+                                <span class="small">针对搜索引擎设置的关键词。多个关键词请用","号分隔 </span>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea asp-for="Meta_Keywords" class="form-control"></textarea>
+                                <span asp-validation-for="Meta_Keywords" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label asp-for="Meta_Description" class="control-label"></label><br />
+                                <text class="small">针对搜索引擎设置的网页描述。 多个描述请用,号分隔</text>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea asp-for="Meta_Description" class="form-control"></textarea>
+                                <span asp-validation-for="Meta_Description" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="添加" class="btn btn-default" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section aside{
+
+    @Html.Partial("Aside")
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/Areas/System/js/Category/Add.js"></script>
+}

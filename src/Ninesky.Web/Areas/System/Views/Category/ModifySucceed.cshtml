@@ -14,7 +14,7 @@
     <p>您已成功修改栏目【@Model.Name】</p>
     <p>
         <a href="@Url.Action("Add")" class="btn btn-default">添加栏目</a>
-        <a href="@Url.Action("Details","Category",new {id=Model.CategoryId })" class="btn btn-default">修改栏目</a>
+        <a href="@Url.Action("Modify","Category",new {id=Model.CategoryId })" class="btn btn-default">修改栏目</a>
     </p>
 </div>
 @section aside{

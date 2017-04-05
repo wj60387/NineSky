@@ -18,7 +18,6 @@
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#base" role="tab" data-toggle="tab">基本信息</a></li>
-    <li role="presentation"><a href="#order" role="tab" data-toggle="tab">排序方式</a></li>
 </ul>
 <!-- Tab panes -->
 <div class="tab-content">
@@ -51,26 +50,11 @@
             </dd>
         </dl>
     </div>
-    <div role="tabpanel" class="tab-pane" id="order"><table id="moduleordertable"></table></div>
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#moduleordertable').bootstrapTable({
-                url: '@Url.Action("OrderList",new{
-            id=Model.ModuleId})',
-                columns: [{
-                    field: 'moduleOrderId',
-                    title: '序号'
-                }, {
-                    field: 'name',
-                    title: '名称',
-                }, {
-                    field: 'order',
-                    title: '值'
-                }]
-            });
             $('#Enabled').click(function () {
                 $.post('@Url.Action("Enable", "Module")', { id: $('#ModuleId').val(), enabled: $('#Enabled').prop('checked') }, function (response) { 
                     if(response.succeed)

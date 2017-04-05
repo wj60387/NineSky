@@ -38,30 +38,46 @@ namespace Ninesky.Web.Areas.System.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Add([FromServices]InterfaceModuleService moduleService, CategoryType? categoryType)
         {
-
-            var modules = await moduleService.FindListAsync(true);
-            var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
-            modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
-            ViewData["Modules"] = modeleArry;
-            return View(new Category() { Type = CategoryType.General, ParentId = 0, View = "Index", PageSize=20, Order = 0, Target = LinkTarget._self});
+            switch(categoryType)
+            {
+                case CategoryType.Page:
+                    return View("AddPage", new Category() { Type = CategoryType.Page, ParentId = 0, View = "Index", Target = LinkTarget._self });
+                case CategoryType.Link:
+                    return View("AddLink", new Category() { Type = CategoryType.Link, ParentId = 0, LinkUrl="http://", Target = LinkTarget._self });
+                default:
+                    var modules = await moduleService.FindListAsync(true);
+                    var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
+                    modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
+                    ViewData["Modules"] = modeleArry;
+                    return View(new Category() { Type = CategoryType.General, ParentId = 0, View = "Index", PageSize=20, Order = 0, Target = LinkTarget._self});
+            }
+            
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromServices]InterfaceModuleService moduleService, Category category)
         {
+            if (category == null) return Content("栏目信息能不能为空");
             if (ModelState.IsValid)
             {
                 category.Creater = "洞庭夕照";
-                category.Type = CategoryType.General;
                 var opsResult = await _categoryService.AddAsync(category);
                 if (opsResult.Succeed) return View("AddSucceed", category);
                 else ModelState.AddModelError("", opsResult.Message);
             }
-            var modules = await moduleService.FindListAsync(true);
-            var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
-            modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
-            ViewData["Modules"] = modeleArry;
-            return View(category);
+            switch (category.Type)
+            {
+                case CategoryType.Page:
+                    return View("AddPage", category);
+                case CategoryType.Link:
+                    return View("AddLink", category);
+                default:
+                    var modules = await moduleService.FindListAsync(true);
+                    var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
+                    modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
+                    ViewData["Modules"] = modeleArry;
+                    return View(category);
+            }
         }
 
         /// <summary>
@@ -80,13 +96,24 @@ namespace Ninesky.Web.Areas.System.Controllers
         /// </summary>
         /// <param name="id">栏目ID</param>
         /// <returns></returns>
-        public async Task<IActionResult> Details([FromServices]InterfaceModuleService moduleService, int id)
+        public async Task<IActionResult> Modify([FromServices]InterfaceModuleService moduleService, int id)
         {
-            var modules = await moduleService.FindListAsync(true);
-            var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
-            modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
-            ViewData["Modules"] = modeleArry;
-            return View(await _categoryService.FindAsync(id));
+
+            var category = await _categoryService.FindAsync(id);
+            if (category == null) return Content("栏目信息能不能为空");
+            switch (category.Type)
+            {
+                case CategoryType.Page:
+                    return View("AddPage", category);
+                case CategoryType.Link:
+                    return View("AddLink", category);
+                default:
+                    var modules = await moduleService.FindListAsync(true);
+                    var modeleArry = modules.Select(m => new SelectListItem { Text = m.Name, Value = m.ModuleId.ToString() }).ToList();
+                    modeleArry.Insert(0, new SelectListItem() { Text = "无", Value = "0", Selected = true });
+                    ViewData["Modules"] = modeleArry;
+                    return View(category);
+            }
         }
 
         /// <summary>
@@ -96,7 +123,7 @@ namespace Ninesky.Web.Areas.System.Controllers
         /// <param name="category"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Details([FromServices]InterfaceModuleService moduleService, Category category)
+        public async Task<IActionResult> Modify([FromServices]InterfaceModuleService moduleService, Category category)
         {
             //模型验证是否通过
             if (ModelState.IsValid)
@@ -144,7 +171,7 @@ namespace Ninesky.Web.Areas.System.Controllers
                 nodes = new List<zTreeNode>(categories.Count());
                 foreach(var category in categories)
                 {
-                    var node = new zTreeNode() { id = category.CategoryId, pId= category.ParentId, name = category.Name, url = Url.Action("Details", "Category", new { id = category.CategoryId }) };
+                    var node = new zTreeNode() { id = category.CategoryId, pId= category.ParentId, name = category.Name, url = Url.Action("Modify", "Category", new { id = category.CategoryId }) };
                     switch(category.Type)
                     {
                         case CategoryType.General:
